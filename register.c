@@ -49,13 +49,13 @@ int registers_release(void* map, int file_size, int fd) {
     return 0;
 }
 
-    void set_display_on(unsigned short *r0) {
-        *r0 |= (1 << 0);
-    }
-
-    void set_display_off(unsigned short *r0) {
-        *r0 &= ~(1 << 0);
-    }
+    void set_display_state(unsigned short *r0, int mode) {
+        if(mode == 1) {
+            *r0 |= (1 << 0);
+        } else if(mode == 0){
+            *r0 &= ~(1 << 0);
+        }
+    }   
 
     void set_display_mode(unsigned short *r0, int mode) {
     if (mode < 0 || mode > 3) {
@@ -82,14 +82,12 @@ int registers_release(void* map, int file_size, int fd) {
     *r0 |= (value << 3);
 
     }
-
-    void led_operation_on(unsigned short *r0) {
-        *r0 |= (1 << 9);
+    
+    void set_led_operation_state(unsigned short *r0, int state) {
+        if(state ==0 || state == 1) {
+            *r0 |= (state << 9);
+        }
     }
-
-    void led_operation_off(unsigned short *r0) {
-        *r0 &= ~(1 << 9);
-    }   
 
     void set_status_led_color(unsigned short *r0, int value) {
     if (value < 0 || value > 63) {
@@ -128,8 +126,8 @@ void activate_default_state(unsigned short *r0) {
 void run_program(unsigned short *r0) {
     int choice = -1;
     while (choice != 0) {
-        printf("Menu de opcoes: \n [1] Ligar/Desligar display;\n [2] Selecionar modo de exibicao;");
-        printf("\n [3] Alterar Refresh Rate\n [0] Finalizar execucao\n");
+        printf("Menu de opcoes: \n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
+        printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [0] Finalizar execução\n");
         scanf("%d", &choice);
 
         if (choice == 1) {//ligar/desligar
@@ -137,10 +135,8 @@ void run_program(unsigned short *r0) {
             printf("\nLigar/Desligar display: \n [0] Desligar\n [1] Ligar\n");
             scanf("%d", &sub);
 
-            if (sub == 0) {
-                set_display_off(r0);
-            } else if (sub == 1) {
-                set_display_on(r0);
+            if (sub==1 || sub==0) {
+                set_display_state(r0, sub);
             } else {
                 printf("Escolha inválida. Tente novamente.\n");
             }
@@ -157,11 +153,19 @@ void run_program(unsigned short *r0) {
         } else if(choice == 3) {//refresh rate
             int sub;
             printf("\nRefresh Rate: \n\n Insira um valor entre 0 e 63!\nValor: ");
-            scanf("%d", sub);
+            scanf("%d", &sub);
             if(sub>=0 && sub<=63) {
                 set_refresh_rate(r0, sub);
             } else {
                 printf("Valor invalido. Tente novamente.\n");
+            }
+        } else if(choice == 4) {//ligar/desligar led
+            int sub;
+            prinf("\nLigar/Desligar \n [0] Desligar\n [1] Ligar\n");
+            if(sub<=1 && sub>=0) {
+                set_led_operation_state(r0, sub);
+            } else {
+                prinf("Valor invalido. Tente novamente.\n");
             }
         } else if (choice != 0) {
             printf("Escolha inválida. Tente novamente.\n");
