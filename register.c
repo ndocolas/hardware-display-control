@@ -57,6 +57,20 @@ int registers_release(void* map, int file_size, int fd) {
         *r0 &= ~(1 << 0);
     }
 
+    void set_display_mode(unsigned short *r0, int mode) {
+    if (mode < 0 || mode > 3) {
+        printf("Error: Invalid display mode. Mode must be between 0 and 3.\n");
+        return;
+    }
+    *r0 &= ~(3 << 1);
+    *r0 |= (mode << 1);
+    /*
+    0 - 00 = estático (default)
+    1 - 01 = deslizante
+    2 - 10 = piscante
+    3 - 11 = deslizante/piscante-*/
+    }
+
 
 int main() {
     int fd;
