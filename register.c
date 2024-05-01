@@ -162,6 +162,7 @@ void run_program(unsigned short *r0) {
         } else if(choice == 4) {//ligar/desligar led
             int sub;
             printf("\nLigar/Desligar \n [0] Desligar\n [1] Ligar\n");
+            scanf("%d", &sub);
             if(sub<=1 && sub>=0) {
                 set_led_operation_state(r0, sub);
             } else {
