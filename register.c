@@ -71,6 +71,7 @@ int registers_release(void* map, int file_size, int fd) {
     3 - 11 = deslizante/piscante-*/
     }
 
+
     void set_refresh_rate(unsigned short *r0, int value) {
     if (value < 0 || value > 63) {
         printf("Error: Invalid value. Value must be between 0 and 63.\n");
@@ -82,7 +83,13 @@ int registers_release(void* map, int file_size, int fd) {
 
     }
 
+    void led_operation_on(unsigned short *r0) {
+        *r0 |= (1 << 9);
+    }
 
+    void led_operation_off(unsigned short *r0) {
+        *r0 &= ~(1 << 9);
+    }   
 int main() {
     int fd;
     char* map = registers_map(FILE_PATH, FILE_SIZE, &fd);
@@ -97,6 +104,7 @@ int main() {
     set_display_on(r0);
     set_display_mode(r0, 1);
     set_refresh_rate(r0, 5);
+    led_operation_on(r0);
     
     printf("Current value of R0: 0x%02x\n", *r0);
 
