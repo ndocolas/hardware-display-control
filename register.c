@@ -145,6 +145,12 @@ void run_program(unsigned short *r0) {
             } else {
                 printf("Escolha inválida. Tente novamente.\n");
             }
+        } else if (coice == 2) {
+           int sub_choice;
+           printf("\nModo de Exibicao:\n [0] Estatico\n [1] Deslizante\n [2] Piscante\n [3] Deslizante/Piscante");
+           scanf("%d", &sub_choice);
+
+           if(sub_choice)//-------
         } else if (choice != 0) {
             printf("Escolha inválida. Tente novamente.\n");
         }
