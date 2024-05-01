@@ -51,11 +51,11 @@ int registers_release(void* map, int file_size, int fd) {
 }
 
 void set_R0_ON(unsigned short *r0) {//display ligado
-    *r0 = 1;
+    *r0 = 0x01;
 }
 
 void set_R0_OFF(unsigned short *r0) {//display desligado
-    *r0 = 0;
+    *r0 = 0x00;
 }
 
 
