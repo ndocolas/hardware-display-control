@@ -84,8 +84,10 @@ int registers_release(void* map, int file_size, int fd) {
     }
     
     void set_led_operation_state(unsigned short *r0, int state) {
-        if(state ==0 || state == 1) {
-            *r0 |= (state << 9);
+        if(state == 1) {
+            *r0 |= (1 << 9);
+        } else {
+            *r0 &= ~(1 << 9);
         }
     }
 
