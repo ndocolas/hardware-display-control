@@ -130,13 +130,12 @@ void activate_default_state(unsigned short *r0) {
 void run_program(unsigned short *r0) {
     int choice = -1;
     while (choice != 0) {
-        printf("Menu de opcoes: \n [1] Ligar/Desligar display;
-           \n [2] Selecionar modo de exibicao;");
+        printf("Menu de opcoes: \n [1] Ligar/Desligar display;\n [2] Selecionar modo de exibicao;\n [0] Finalizar execucao");
         scanf("%d", &choice);
 
         if (choice == 1) {
             int sub_choice;
-            printf("\nLigar/Desligar display: \n [0] Desligar\n[1] Ligar\n");
+            printf("\nLigar/Desligar display: \n [0] Desligar\n [1] Ligar\n");
             scanf("%d", &sub_choice);
 
             if (sub_choice == 0) {
