@@ -161,11 +161,11 @@ void run_program(unsigned short *r0) {
             }
         } else if(choice == 4) {//ligar/desligar led
             int sub;
-            prinf("\nLigar/Desligar \n [0] Desligar\n [1] Ligar\n");
+            printf("\nLigar/Desligar \n [0] Desligar\n [1] Ligar\n");
             if(sub<=1 && sub>=0) {
                 set_led_operation_state(r0, sub);
             } else {
-                prinf("Valor invalido. Tente novamente.\n");
+                printf("Valor invalido. Tente novamente.\n");
             }
         } else if (choice != 0) {
             printf("Escolha inválida. Tente novamente.\n");
