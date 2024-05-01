@@ -50,18 +50,35 @@ int registers_release(void* map, int file_size, int fd) {
     return 0;
 }
 
-void set_R0_ON(unsigned short *r0) {//display ligado
-    *r0 = 0x01;
+void set_display_on(unsigned short *r0) {
+    *r0 = 0xffff;
 }
 
-void set_R0_OFF(unsigned short *r0) {//display desligado
+void set_display_off(unsigned short *r0) {
     *r0 = 0x00;
+}
+
+void select_display_mode(unsigned short *r1, unsigned short *r2, int mode) {
+    if (mode == 0) {//estatico
+        *r1 = 0; 
+        *r2 = 0; 
+    } else if (mode == 1) {//deslizante
+        *r1 = 0; 
+        *r2 = 1; 
+    } else if (mode == 2) {//piscante
+        *r1 = 1; 
+        *r2 = 0; 
+    } else if (mode == 3) {//deslizante/piscante
+        *r1 = 1; 
+        *r2 = 1; 
+    } else {
+        printf("Error: Invalid display mode. Mode must be between 0 and 3.\n");
+    }
 }
 
 
 int main() {
     int fd;
-    // Open the file and map it into memory
     char* map = registers_map(FILE_PATH, FILE_SIZE, &fd);
     if (map == NULL) {
         return EXIT_FAILURE;
@@ -70,15 +87,12 @@ int main() {
     unsigned short *base_address = (unsigned short *)map;
     unsigned short *r0 = base_address + 0x00;
     unsigned short *r1 = base_address + 0x01;
-
-    set_R0_OFF(r0);
-    set_R0_ON(r0);
+    unsigned short *r2 = base_address + 0x02;
     
-    printf("Current value of R0: 0x%02x\n", *r0);
+    select_display_mode(r1, r2, 3);
     printf("Current value of R1: 0x%02x\n", *r1);
+    printf("Current value of R2: 0x%02x\n", *r2);
 
-
-    // Release resources
     if (registers_release(map, FILE_SIZE, fd) == -1) {
         return EXIT_FAILURE;
     }
