@@ -128,32 +128,41 @@ void activate_default_state(unsigned short *r0) {
 void run_program(unsigned short *r0) {
     int choice = -1;
     while (choice != 0) {
-        printf("Menu de opcoes: \n [1] Ligar/Desligar display;\n[2] Selecionar modo de exibicao;");
-        printf("\n [0] Finalizar execucao");
+        printf("Menu de opcoes: \n [1] Ligar/Desligar display;\n [2] Selecionar modo de exibicao;");
+        printf("\n [3] Alterar Refresh Rate\n [0] Finalizar execucao\n");
         scanf("%d", &choice);
 
         if (choice == 1) {//ligar/desligar
-            int sub_choice;
+            int sub;
             printf("\nLigar/Desligar display: \n [0] Desligar\n [1] Ligar\n");
-            scanf("%d", &sub_choice);
+            scanf("%d", &sub);
 
-            if (sub_choice == 0) {
+            if (sub == 0) {
                 set_display_off(r0);
-            } else if (sub_choice == 1) {
+            } else if (sub == 1) {
                 set_display_on(r0);
             } else {
                 printf("Escolha inválida. Tente novamente.\n");
             }
         } else if (choice == 2) {//modo exibicao
-           int sub_choice;
-           printf("\nModo de Exibicao:\n [0] Estatico\n [1] Deslizante\n [2] Piscante\n [3] Deslizante/Piscante");
-           scanf("%d", &sub_choice);
+           int sub;
+           printf("\nModo de Exibicao:\n [0] Estatico\n [1] Deslizante\n [2] Piscante\n [3] Deslizante/Piscante\n");
+           scanf("%d", &sub);
 
-           if(sub_choice >= 0 && sub_choice <= 3) {
-            set_display_mode(r0, sub_choice);
+           if(sub >= 0 && sub <= 3) {
+            set_display_mode(r0, sub);
            } else {
-            prinf("Escolha inexistente. Tente novamente.\n");
+            printf("Escolha inexistente. Tente novamente.\n");
            }
+        } else if(choice == 3) {//refresh rate
+            int sub;
+            printf("\nRefresh Rate: \n\n Insira um valor entre 0 e 63!\nValor: ");
+            scanf("%d", sub);
+            if(sub>=0 && sub<=63) {
+                set_refresh_rate(r0, sub);
+            } else {
+                printf("Valor invalido. Tente novamente.\n");
+            }
         } else if (choice != 0) {
             printf("Escolha inválida. Tente novamente.\n");
         }
