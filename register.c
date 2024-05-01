@@ -118,11 +118,38 @@ int registers_release(void* map, int file_size, int fd) {
 
     */
 }
-
 void activate_default_state(unsigned short *r0) {
-    *r0 |= (1 << 13); // Ativa o bit 13
-    unsigned short default_state = 0b000000100001000; // Estado padrão
-    *r0 = default_state;
+    *r0 = 0; // Inicializar com todos os bits zerados
+
+    // Definir cada bit conforme especificado
+    *r0 |= (1 << 0); // Bit 0 para 1
+    *r0 |= (2 << 3); // Bits 3-8 para 2 em binário (00010)
+    *r0 |= (1 << 10); // Bits 10-12 para 001
+}
+
+void run_program(unsigned short *r0) {
+    int choice = -1;
+    while (choice != 0) {
+        printf("Menu de opcoes: \n [1] Ligar/Desligar display;
+           \n [2] Selecionar modo de exibicao;");
+        scanf("%d", &choice);
+
+        if (choice == 1) {
+            int sub_choice;
+            printf("\nLigar/Desligar display: \n [0] Desligar\n[1] Ligar\n");
+            scanf("%d", &sub_choice);
+
+            if (sub_choice == 0) {
+                set_display_off(r0);
+            } else if (sub_choice == 1) {
+                set_display_on(r0);
+            } else {
+                printf("Escolha inválida. Tente novamente.\n");
+            }
+        } else if (choice != 0) {
+            printf("Escolha inválida. Tente novamente.\n");
+        }
+    }
 }
 
 int main() {
@@ -136,13 +163,7 @@ int main() {
     unsigned short *r0 = base_address + 0x00;
     unsigned short *r1 = base_address + 0x01;
 
-    set_display_on(r0);
-    set_display_mode(r0, 1);
-    set_refresh_rate(r0, 2);
-    led_operation_on(r0);
-    set_led_color(r0, 0);
-
-   activate_default_state(r0);
+    run_program(r0);
 
     printf("Current value of R0: 0x%02x\n", *r0);
 
