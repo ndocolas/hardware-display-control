@@ -90,19 +90,31 @@ int registers_release(void* map, int file_size, int fd) {
     void led_operation_off(unsigned short *r0) {
         *r0 &= ~(1 << 9);
     }   
+
+    void set_status_led_color(unsigned short *r0, int value) {
+    if (value < 0 || value > 63) {
+        printf("Error: Invalid value. Value must be between 0 and 63.\n");
+        return;
+    }
+
+    *r0 &= ~(63 << 3);
+    *r0 |= (value << 3);
+
+    }
+
     void set_led_color(unsigned short *r0, int mode) {
     if (mode < 0 || mode > 2) {
         printf("Error: Invalid mode. Mode must be between 0 and 2.\n");
         return;
     }
-
+    
     *r0 &= ~(7 << 10);
     *r0 |= (1 << (10 + mode));
 
     /*
-    0 = Blue
+    0 = Red
     1 = Green
-    2 = Red
+    2 = Blue
 
     */
 }
@@ -120,10 +132,10 @@ int main() {
 
     set_display_on(r0);
     set_display_mode(r0, 1);
-    set_refresh_rate(r0, 2);
+    set_refresh_rate(r0, 5);
     led_operation_on(r0);
-    set_led_color(r0, 0);
-
+    set_led_color(r0, 2)
+    
     printf("Current value of R0: 0x%02x\n", *r0);
 
     if (registers_release(map, FILE_SIZE, fd) == -1) {
