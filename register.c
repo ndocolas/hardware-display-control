@@ -72,6 +72,7 @@ int main() {
     unsigned short *r1 = base_address + 0x01;
 
     set_R0_OFF(r0);
+    set_R0_ON(r0);
     
     printf("Current value of R0: 0x%02x\n", *r0);
     printf("Current value of R1: 0x%02x\n", *r1);
