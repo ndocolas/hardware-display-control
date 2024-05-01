@@ -50,6 +50,15 @@ int registers_release(void* map, int file_size, int fd) {
     return 0;
 }
 
+void set_R0_ON(unsigned short *r0) {//display ligado
+    *r0 = 1;
+}
+
+void set_R0_OFF(unsigned short *r0) {//display desligado
+    *r0 = 0;
+}
+
+
 int main() {
     int fd;
     // Open the file and map it into memory
@@ -61,11 +70,12 @@ int main() {
     unsigned short *base_address = (unsigned short *)map;
     unsigned short *r0 = base_address + 0x00;
     unsigned short *r1 = base_address + 0x01;
+
+    set_R0_OFF(*r0);
+    
     printf("Current value of R0: 0x%02x\n", *r0);
     printf("Current value of R1: 0x%02x\n", *r1);
 
-    // Write a new value to R0
-    *r0 = *r0 | 0x00;
 
     // Release resources
     if (registers_release(map, FILE_SIZE, fd) == -1) {
