@@ -119,6 +119,12 @@ int registers_release(void* map, int file_size, int fd) {
     */
 }
 
+void activate_default_state(unsigned short *r0) {
+    *r0 |= (1 << 13); // Ativa o bit 13
+    unsigned short default_state = 0b000000100001000; // Estado padrão
+    *r0 = default_state;
+}
+
 int main() {
     int fd;
     char* map = registers_map(FILE_PATH, FILE_SIZE, &fd);
@@ -135,6 +141,8 @@ int main() {
     set_refresh_rate(r0, 2);
     led_operation_on(r0);
     set_led_color(r0, 0);
+
+   activate_default_state(r0);
 
     printf("Current value of R0: 0x%02x\n", *r0);
 
