@@ -115,25 +115,24 @@ int registers_release(void* map, int file_size, int fd) {
     0 = Blue
     1 = Green
     2 = Red
-
     */
 }
 void activate_default_state(unsigned short *r0) {
-    *r0 = 0; // Inicializar com todos os bits zerados
+    *r0 = 0;
 
-    // Definir cada bit conforme especificado
-    *r0 |= (1 << 0); // Bit 0 para 1
-    *r0 |= (2 << 3); // Bits 3-8 para 2 em binário (00010)
-    *r0 |= (1 << 10); // Bits 10-12 para 001
+    *r0 |= (1 << 0);
+    *r0 |= (2 << 3);
+    *r0 |= (1 << 10);
 }
 
 void run_program(unsigned short *r0) {
     int choice = -1;
     while (choice != 0) {
-        printf("Menu de opcoes: \n [1] Ligar/Desligar display;\n [2] Selecionar modo de exibicao;\n [0] Finalizar execucao");
+        printf("Menu de opcoes: \n [1] Ligar/Desligar display;\n[2] Selecionar modo de exibicao;");
+        printf("\n [0] Finalizar execucao");
         scanf("%d", &choice);
 
-        if (choice == 1) {
+        if (choice == 1) {//ligar/desligar
             int sub_choice;
             printf("\nLigar/Desligar display: \n [0] Desligar\n [1] Ligar\n");
             scanf("%d", &sub_choice);
@@ -145,12 +144,16 @@ void run_program(unsigned short *r0) {
             } else {
                 printf("Escolha inválida. Tente novamente.\n");
             }
-        } else if (coice == 2) {
+        } else if (choice == 2) {//modo exibicao
            int sub_choice;
            printf("\nModo de Exibicao:\n [0] Estatico\n [1] Deslizante\n [2] Piscante\n [3] Deslizante/Piscante");
            scanf("%d", &sub_choice);
 
-           if(sub_choice)//-------
+           if(sub_choice >= 0 && sub_choice <= 3) {
+            set_display_mode(r0, sub_choice);
+           } else {
+            prinf("Escolha inexistente. Tente novamente.\n");
+           }
         } else if (choice != 0) {
             printf("Escolha inválida. Tente novamente.\n");
         }
