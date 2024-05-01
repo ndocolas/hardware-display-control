@@ -34,7 +34,6 @@ char* registers_map(const char* file_path, int file_size, int* fd) {
     return map;
 }
 
-// Function to release mapped memory and file descriptor
 int registers_release(void* map, int file_size, int fd) {
     if (munmap(map, file_size) == -1) {
         perror("Error unmapping the file");
@@ -50,31 +49,13 @@ int registers_release(void* map, int file_size, int fd) {
     return 0;
 }
 
-void set_display_on(unsigned short *r0) {
-    *r0 = 0xffff;
-}
-
-void set_display_off(unsigned short *r0) {
-    *r0 = 0x00;
-}
-
-void select_display_mode(unsigned short *r1, unsigned short *r2, int mode) {
-    if (mode == 0) {//estatico
-        *r1 = 0; 
-        *r2 = 0; 
-    } else if (mode == 1) {//deslizante
-        *r1 = 0; 
-        *r2 = 1; 
-    } else if (mode == 2) {//piscante
-        *r1 = 1; 
-        *r2 = 0; 
-    } else if (mode == 3) {//deslizante/piscante
-        *r1 = 1; 
-        *r2 = 1; 
-    } else {
-        printf("Error: Invalid display mode. Mode must be between 0 and 3.\n");
+    void set_display_on(unsigned short *r0) {
+        *r0 |= (1 << 0);
     }
-}
+
+    void set_display_off(unsigned short *r0) {
+        *r0 &= ~(1 << 0);
+    }
 
 
 int main() {
@@ -87,11 +68,10 @@ int main() {
     unsigned short *base_address = (unsigned short *)map;
     unsigned short *r0 = base_address + 0x00;
     unsigned short *r1 = base_address + 0x01;
-    unsigned short *r2 = base_address + 0x02;
+
+    set_display_off(r0);
     
-    select_display_mode(r1, r2, 3);
-    printf("Current value of R1: 0x%02x\n", *r1);
-    printf("Current value of R2: 0x%02x\n", *r2);
+    printf("Current value of R0: 0x%02x\n", *r0);
 
     if (registers_release(map, FILE_SIZE, fd) == -1) {
         return EXIT_FAILURE;
