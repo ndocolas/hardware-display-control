@@ -107,14 +107,14 @@ int registers_release(void* map, int file_size, int fd) {
         printf("Error: Invalid mode. Mode must be between 0 and 2.\n");
         return;
     }
-    
+
     *r0 &= ~(7 << 10);
     *r0 |= (1 << (10 + mode));
 
     /*
-    0 = Red
+    0 = Blue
     1 = Green
-    2 = Blue
+    2 = Red
 
     */
 }
@@ -132,10 +132,10 @@ int main() {
 
     set_display_on(r0);
     set_display_mode(r0, 1);
-    set_refresh_rate(r0, 5);
+    set_refresh_rate(r0, 2);
     led_operation_on(r0);
-    set_led_color(r0, 2)
-    
+    set_led_color(r0, 0);
+
     printf("Current value of R0: 0x%02x\n", *r0);
 
     if (registers_release(map, FILE_SIZE, fd) == -1) {
