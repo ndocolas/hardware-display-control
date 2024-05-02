@@ -169,6 +169,7 @@
 
     void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, unsigned short *r3) {
         int choice = -1;
+        int sub;
         while (choice != 0) {
             printf("Menu de opcoes: \n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
             printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [5] Alterar cor do Display\n\n");
@@ -177,7 +178,7 @@
             scanf("%d", &choice);
             switch(choice) {
                 case 1:
-                    int sub;    
+                        
                     printf("\nLigar/Desligar display: \n [0] Desligar\n [1] Ligar\n");
                     scanf("%d", &sub);
 
@@ -186,7 +187,7 @@
 
                  break;
                 case 2:
-                    int sub;
+                    
                     printf("\nModo de Exibicao:\n [0] Estatico\n [1] Deslizante\n [2] Piscante\n [3] Deslizante/Piscante\n");
                     scanf("%d", &sub);
 
@@ -194,21 +195,20 @@
                     else printf("Escolha inexistente. Tente novamente.\n");
                  break;
                 case 3:
-                    int sub;
+                    
                     printf("\nRefresh Rate: \n\n Insira um valor entre 0 e 63!\nValor: ");
                     scanf("%d", &sub);
                     if(sub>=0 && sub<=63) set_refresh_rate(r0, sub);
                     else printf("Valor invalido. Tente novamente.\n");
                  break;
                 case 4:
-                    int sub;
+                    
                     printf("\nLigar/Desligar: \n [0] Desligar\n [1] Ligar\n");
                     scanf("%d", &sub);
                     if(sub<=1 && sub>=0) set_led_operation_state(r0, sub);
                     else printf("Valor invalido. Tente novamente.\n");
                  break;
                 case 5:
-                    int sub = -1;
                     while(sub != 0) {
                         printf("Alteracao de cor do display: \n [1] Vermelho\n [2] Verde\n [3] Azul\n [0] Sair\n");
                         scanf("%d", &sub);
@@ -238,7 +238,7 @@
                     }
                  break;
                 case 6:
-                    int sub;
+                    
                     printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim\n");
                     scanf("%d", &sub);
                     if(sub == 1) {
@@ -246,7 +246,6 @@
                     }
                  break;
                 case 7:
-                    int sub = -1;
                     while(sub !=0) {
                         printf("Menu de leitura: \n [1] Bit 0 (Display ON/OFF) \n [2] Modo display \n [3] Valor refresh rate \n");
                         printf(" [4] Valor led de operacao\n [5] Cores do led de status\n [6] Nivel da bateria");
@@ -254,10 +253,10 @@
                         scanf("%d", &sub);
                         switch(sub) {
                             case 1:printf("\nDisplay: %s\n\n", read_status_display(r0));break;
-                            case 2:printf("\nModo display: %d\n\n", read_display_mode(r0));break;
+                            case 2:printf("\nModo display: %s\n\n", read_display_mode(r0));break;
                             case 3:printf("\nValor do refresh rate: %d\n\n", read_refresh_rate(r0));break;
-                            case 4:printf("\nValor da led: %d\n\n", read_led_operation(r0));break;
-                            case 5:printf("\nValor das cores: %d\n\n", read_color_led(r0));break;
+                            case 4:printf("\nValor da led: %s\n\n", read_led_operation(r0));break;
+                            case 5:printf("\nValor das cores: %s\n\n", read_color_led(r0));break;
                             case 6:printf("\nNivel da bateria:%s\n\n", read_battery_status(r3));break;
 
                             default:
