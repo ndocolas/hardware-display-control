@@ -154,7 +154,7 @@
 
     char* read_color_led(unsigned short *r0) {
         static char result[64];
-        snprintf(result, sizeof(result), "Valor:\n10: %d\n11: %d\n12: %d", ((*r0 >> 10) & 0b1), ((*r0 >> 11) & 0b1), ((*r0 >> 12) & 0b1));
+        snprintf(result, sizeof(result), "Valor:\n [B] 10: %d\n [G] 11: %d\n [R] 12: %d", ((*r0 >> 10) & 0b1), ((*r0 >> 11) & 0b1), ((*r0 >> 12) & 0b1));
         return result;
     }
 
@@ -249,8 +249,8 @@
                  break;
                 case 7:
                     while(sub !=0) {
-                        printf("Menu de leitura: \n [1] Bit 0 (Display ON/OFF) \n [2] Modo display \n [3] Valor refresh rate \n");
-                        printf(" [4] Valor led de operacao\n [5] Cores do led de status\n [6] Nivel da bateria");
+                        printf("Menu de leitura: \n [1] Status display \n [2] Modo display \n [3] Valor refresh rate \n");
+                        printf(" [4] Status led operation\n [5] Status RGB LED\n [6] Nivel da bateria");
                         printf("\n [0] Sair\n");
                         scanf("%d", &sub);
                         switch(sub) {
@@ -259,7 +259,7 @@
                             case 3:printf("\nValor do refresh rate: %d\n\n", read_refresh_rate(r0));break;
                             case 4:printf("\nValor da led: %s\n\n", read_led_operation(r0));break;
                             case 5:printf("\nValor das cores: %s\n\n", read_color_led(r0));break;
-                            case 6:printf("\nNivel da bateria:%s\n\n", read_battery_status(r3));break;
+                            case 6:printf("\nNivel da bateria: %s\n\n", read_battery_status(r3));break;
 
                             default:
                             break;
