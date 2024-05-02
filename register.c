@@ -209,8 +209,8 @@ int main() {
 
     // run_program(r0);
     def_color_red(r1, 27);
-    def_color_green(r1, 139)
-    def_color_blue(r2, 61)
+    def_color_green(r1, 139);
+    def_color_blue(r2, 61);
 
     printf("Current value of R0: 0x%02x\n", *r0);
 
