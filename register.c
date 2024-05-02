@@ -85,14 +85,9 @@
         }
     }
 
-    void set_led_color(unsigned short *r0, int mode) {
-        if (mode < 0 || mode > 2) {
-            printf("Error: Invalid mode. Mode must be between 0 and 2.\n");
-            return;
-        }
-
+    void set_led_color(unsigned short *r0, int valor) {
         *r0 &= ~(7 << 10);
-        *r0 |= (1 << (10 + mode));
+        *r0 |= (1 << (10 + valor));
     }
 
     void activate_default_state(unsigned short *r0) {
@@ -125,28 +120,27 @@
     }
 
     int read_status_display(unsigned short *r0) {
-        int bit_0 = (*r0 >> 0) & 0b1;
-
-        return bit_0;
+        return (*r0 >> 0) & 0b1;
     }
 
     int read_display_mode(unsigned short *r0) {
-        unsigned short bits_1_2 = (*r0 >> 1) & 0b11;
-        return bits_1_2;
+        return (*r0 >> 1) & 0b11;
     }
 
     int read_refresh_rate(unsigned short *r0) {
-        int bits_3_to_8 = (*r0 >> 3) & 0b111111;
-        return bits_3_to_8;
+        return (*r0 >> 3) & 0b111111;
+    }
+
+    int read_battery_status(unsigned short *r3) {
+        return (*r3 >>0) & 0b1;
     }
 
     void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2) {
         int choice = -1;
         while (choice != 0) {
             printf("Menu de opcoes: \n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
-            printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [5] Escolher cor LED \n");
-            printf(" [7] Alterar cor do Display\n\n");
-            printf(" [0] Finalizar execução  [6] Restaurar Padrao  [8] Leitura de Informacoes\n");
+            printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [5] Alterar cor do Display\n\n");
+            printf(" [0] Finalizar execução  [6] Restaurar Padrao  [7] Leitura de Informacoes\n");
 
             scanf("%d", &choice);
 
@@ -188,23 +182,7 @@
                 } else {
                     printf("Valor invalido. Tente novamente.\n");
                 }
-            } else if(choice == 5) {//setar cor led
-                int sub;
-                printf("\nEscolher cor LED: \n [0] Azul\n [1] Verde\n [2] Vermelho\n");
-                scanf("%d", &sub);
-                if(sub<=2 && sub>=0) {
-                    set_led_color(r0, sub);
-                } else {
-                    printf("Valor invalido. Tente novamente.\n");
-                }
-            } else if(choice == 6) {
-                int sub;
-                printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim\n");
-                scanf("%d", &sub);
-                if(sub == 1) {
-                    activate_default_state(r0);
-                }
-            } else if (choice == 7) {
+            }else if (choice == 5) {//alterar cor texto display
                 int sub = -1;
                 while(sub != 0) {
                     printf("Alteracao de cor do display: \n [1] Vermelho\n [2] Verde\n [3] Azul\n [0] Sair\n");
@@ -227,8 +205,14 @@
                     } else {
                         printf("Valor invalido. Tente novamente.\n");
                     }
+                } else if(choice == 6) {// restaurar padrao
+                int sub;
+                printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim\n");
+                scanf("%d", &sub);
+                if(sub == 1) {
+                    activate_default_state(r0);
                 }
-            } else if(choice == 8) {
+            } else if(choice == 7) {//ler valores
                 int sub = -1;
                 while(sub !=0) {
                     printf("Menu de leitura: \n [1] Bit 0 (Display ON/OFF) \n [2] Modo display \n [3] Valor refresh rate");
@@ -259,10 +243,9 @@ int main() {
     unsigned short *r0 = base_address + 0x00;
     unsigned short *r1 = base_address + 0x01;
     unsigned short *r2 = base_address + 0x02;
+    unsigned short *r3 = base_address + 0x03;
 
-    run_program(r0, r1, r2);
-
-    printf("Current value of R0: 0x%02x\n", *r0);
+    run_program(r0, r1, r2, r3);
 
     if (registers_release(map, FILE_SIZE, fd) == -1) {
         return EXIT_FAILURE;
