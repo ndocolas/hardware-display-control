@@ -103,10 +103,10 @@
         *r0 |= (1 << 10);
     }
 
-    void run_program(unsigned short *r0) {
+    void run_program(unsigned short *r0, unsigned short *r1) {
         int choice = -1;
         while (choice != 0) {
-            printf("Menu de opcoes: \n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
+            printf("Menu de opcoes: \n [1] Ligar/Desligar display      [7] Alterar cor do Display\n [2] Selecionar modo de exibição");
             printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [5] Escolher cor LED \n");
             printf(" [6] Restaurar Padrao\n");
             printf(" [0] Finalizar execução\n");
@@ -167,6 +167,29 @@
                 if(sub == 1) {
                     activate_default_state(r0);
                 }
+            } else if (choice == 7) {
+                int sub = -1;
+                while(sub != 0) {
+                    printf("Alteracao de cor do display: \n\n [1] Vermelho\n [2] Verde\n [3] Azul\n [0] Sair");
+                    scanf("%d", &sub);
+                    int valor;
+                    if(sub == 1) {
+                        printf("\nDigite o valor para vermelho: ");
+                        scanf("%d", valor);
+                        def_color_red(r1, valor);
+                    } else if(sub == 2) {
+                        printf("\nDigite o valor para verde: ");
+                        scanf("%d", valor);
+                        def_color_green(r1, valor);
+                    } else if(sub == 3) {
+                        printf("\nDigite o valor para azul: ");
+                        scanf("%d", valor);
+                        def_color_blue(r1, valor);
+                    } else {
+                        printf("Valor invalido. Tente novamente.\n");
+                    }
+                }
+            }
             } else if (choice != 0) {
                 printf("Escolha inválida. Tente novamente.\n");
             }
@@ -207,10 +230,7 @@ int main() {
     unsigned short *r1 = base_address + 0x01;
     unsigned short *r2 = base_address + 0x02;
 
-    // run_program(r0);
-    def_color_red(r1, 27);
-    def_color_green(r1, 139);
-    def_color_blue(r2, 61);
+    run_program(r0, r1);
 
     printf("Current value of R0: 0x%02x\n", *r0);
 
