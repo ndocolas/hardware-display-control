@@ -193,16 +193,18 @@
                 while(sub != 0) {
                     printf("Alteracao de cor do display: \n\n [1] Vermelho\n [2] Verde\n [3] Azul\n [0] Sair\n");
                     scanf("%d", &sub);
-                    int valor;
                     if(sub == 1) {
+                        int valor;
                         printf("\nDigite o valor para vermelho: ");
                         scanf("%d", &valor);
                         def_color_red(r1, valor);
                     } else if(sub == 2) {
+                        int valor;
                         printf("\nDigite o valor para verde: ");
                         scanf("%d", &valor);
                         def_color_green(r1, valor);
                     } else if(sub == 3) {
+                        int valor;
                         printf("\nDigite o valor para azul: ");
                         scanf("%d", &valor);
                         def_color_blue(r1, valor);
