@@ -103,6 +103,27 @@
         *r0 |= (1 << 10);
     }
 
+    void def_color_red(unsigned short *r1, int valor) {
+        *r1 &= ~(255 << 0);
+        if(valor<= 255 && valor>=0) {
+            *r1 |= (valor << 0);
+        }
+    }
+
+    void def_color_green(unsigned short *r1, int valor) {
+        *r1 &= ~(255 << 8);
+        if(valor<= 255 && valor>=0) {
+            *r1 |= (valor << 8);
+        }
+    }
+
+    void def_color_blue(unsigned short *r2, int valor) {
+        *r2 &= ~(255 << 0);
+        if(valor<= 255 && valor>=0) {
+            *r2 |= (valor << 0);
+        }
+    }
+
     void run_program(unsigned short *r0, unsigned short *r1) {
         int choice = -1;
         while (choice != 0) {
@@ -175,15 +196,15 @@
                     int valor;
                     if(sub == 1) {
                         printf("\nDigite o valor para vermelho: ");
-                        scanf("%d", valor);
+                        scanf("%d", &valor);
                         def_color_red(r1, valor);
                     } else if(sub == 2) {
                         printf("\nDigite o valor para verde: ");
-                        scanf("%d", valor);
+                        scanf("%d", &valor);
                         def_color_green(r1, valor);
                     } else if(sub == 3) {
                         printf("\nDigite o valor para azul: ");
-                        scanf("%d", valor);
+                        scanf("%d", &valor);
                         def_color_blue(r1, valor);
                     } else {
                         printf("Valor invalido. Tente novamente.\n");
@@ -195,28 +216,6 @@
             }
         }
     }
-
-    void def_color_red(unsigned short *r1, int valor) {
-        *r1 &= ~(255 << 0);
-        if(valor<= 255 && valor>=0) {
-            *r1 |= (valor << 0);
-        }
-    }
-
-    void def_color_green(unsigned short *r1, int valor) {
-        *r1 &= ~(255 << 8);
-        if(valor<= 255 && valor>=0) {
-            *r1 |= (valor << 8);
-        }
-    }
-
-    void def_color_blue(unsigned short *r2, int valor) {
-        *r2 &= ~(255 << 0);
-        if(valor<= 255 && valor>=0) {
-            *r2 |= (valor << 0);
-        }
-    }
-
 
 int main() {
     int fd;
