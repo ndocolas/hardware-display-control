@@ -85,17 +85,27 @@
         }
     }
 
-    void set_led_color(unsigned short *r0, int valor) {//000
+    void set_led_color(unsigned short *r0, int valor) {//RGB
         *r0 &= ~(7 << 10);
         if(valor == 0) {
-             *r0 |= (1 << 10);
+             *r0 |= (1 << 12);
         } else if(valor == 1) {
-            *r0 |= (3 << 10);
+            *r0 |= (3 << 11);
         } else if(valor == 2) {
             *r0 |= (1 << 11);
         } else if(valor == 3) {
             *r0 |= (1 << 11);
         }
+
+        /*
+        10 R
+        11 G
+        12 B
+
+        10 B
+        11 G
+        12 R
+        */
     }
 
     void activate_default_state(unsigned short *r0) {
@@ -140,7 +150,7 @@
     }
 
     int read_battery_status(unsigned short *r3) {
-        return (*r3 >>0) & 0b1;
+        return (*r3 >>0) & 0b11;
     }
 
     void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, unsigned short *r3) {
@@ -253,7 +263,8 @@ int main() {
     unsigned short *r1 = base_address + 0x01;
     unsigned short *r2 = base_address + 0x02;
     unsigned short *r3 = base_address + 0x03;
-    set_led_color(r0, read_battery_status(r3));
+
+    set_led_color(r0, 0);
     run_program(r0, r1, r2, r3);
 
     if (registers_release(map, FILE_SIZE, fd) == -1) {
