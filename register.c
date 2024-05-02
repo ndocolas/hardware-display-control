@@ -175,7 +175,25 @@
 
     void def_color_red(unsigned short *r1, int valor) {
         *r1 &= ~(255 << 0);
+        if(valor<= 255 && valor>=0) {
+            *r1 |= (valor << 0);
+        }
     }
+
+    void def_color_green(unsigned short *r1, int valor) {
+        *r1 &= ~(255 << 8);
+        if(valor<= 255 && valor>=0) {
+            *r1 |= (valor << 8);
+        }
+    }
+
+    void def_color_blue(unsigned short *r2, int valor) {
+        *r2 &= ~(255 << 0);
+        if(valor<= 255 && valor>=0) {
+            *r2 |= (valor << 0);
+        }
+    }
+
 
 int main() {
     int fd;
@@ -187,9 +205,12 @@ int main() {
     unsigned short *base_address = (unsigned short *)map;
     unsigned short *r0 = base_address + 0x00;
     unsigned short *r1 = base_address + 0x01;
+    unsigned short *r2 = base_address + 0x02;
 
     // run_program(r0);
-    def_color_red(r1, 255);
+    def_color_red(r1, 27);
+    def_color_green(r1, 139)
+    def_color_blue(r2, 61)
 
     printf("Current value of R0: 0x%02x\n", *r0);
 
