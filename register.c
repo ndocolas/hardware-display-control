@@ -233,6 +233,7 @@
                 while(sub !=0) {
                     printf("Menu de leitura: \n [1] Bit 0 (Display ON/OFF) \n [3]");
                     printf(" [0] Sair");
+                    scanf("%d", &sub);
                     if(sub == 1) {
                         read_status_display(r0);
                     } else if(sub == 2) {
@@ -240,7 +241,6 @@
                     } else if(sub == 3) {
                         read_refresh_rate(r0);
                     }
-
                 }
             } else if (choice != 0) {
                 printf("Escolha inválida. Tente novamente.\n");
