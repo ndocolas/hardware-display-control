@@ -124,7 +124,7 @@
         }
     }
 
-    void run_program(unsigned short *r0, unsigned short *r1) {
+    void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2) {
         int choice = -1;
         while (choice != 0) {
             printf("Menu de opcoes: \n [1] Ligar/Desligar display      [7] Alterar cor do Display\n [2] Selecionar modo de exibição");
@@ -207,7 +207,7 @@
                         int valor;
                         printf("\nDigite o valor para azul: ");
                         scanf("%d", &valor);
-                        def_color_blue(r1, valor);
+                        def_color_blue(r2, valor);
                     } else {
                         printf("Valor invalido. Tente novamente.\n");
                     }
