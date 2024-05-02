@@ -108,7 +108,7 @@
         while (choice != 0) {
             printf("Menu de opcoes: \n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
             printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [5] Escolher cor LED \n");
-            printf(" [6] Restaurar Padrao\n")
+            printf(" [6] Restaurar Padrao\n");
             printf(" [0] Finalizar execução\n");
 
             scanf("%d", &choice);
@@ -162,7 +162,7 @@
                 }
             } else if(choice == 6) {
                 int sub;
-                printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim")
+                printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim");
                 scanf("%d", &sub);
                 if(sub == 1) {
                     activate_default_state(r0);
@@ -189,7 +189,7 @@ int main() {
     unsigned short *r1 = base_address + 0x01;
 
     // run_program(r0);
-    def_color_red(r1);
+    def_color_red(r1, 255);
 
     printf("Current value of R0: 0x%02x\n", *r0);
 
