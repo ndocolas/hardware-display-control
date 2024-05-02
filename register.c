@@ -268,8 +268,9 @@
                     }
                  break;
                 default:
+                if(choice ==0) break;
                 printf("Escolha inválida. Tente novamente.\n");
-                    break;
+                break;
             }
         }
     }
