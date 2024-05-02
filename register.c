@@ -91,17 +91,6 @@ int registers_release(void* map, int file_size, int fd) {
         }
     }
 
-    void set_status_led_color(unsigned short *r0, int value) {
-    if (value < 0 || value > 63) {
-        printf("Error: Invalid value. Value must be between 0 and 63.\n");
-        return;
-    }
-
-    *r0 &= ~(63 << 3);
-    *r0 |= (value << 3);
-
-    }
-
     void set_led_color(unsigned short *r0, int mode) {
     if (mode < 0 || mode > 2) {
         printf("Error: Invalid mode. Mode must be between 0 and 2.\n");
@@ -129,7 +118,9 @@ void run_program(unsigned short *r0) {
     int choice = -1;
     while (choice != 0) {
         printf("Menu de opcoes: \n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
-        printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [0] Finalizar execução\n");
+        printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [5] Escolher cor LED \n");
+        printf(" [0] Finalizar execução\n");
+
         scanf("%d", &choice);
 
         if (choice == 1) {//ligar/desligar
@@ -167,6 +158,15 @@ void run_program(unsigned short *r0) {
             scanf("%d", &sub);
             if(sub<=1 && sub>=0) {
                 set_led_operation_state(r0, sub);
+            } else {
+                printf("Valor invalido. Tente novamente.\n");
+            }
+        } else if(choice == 5) {//setar cor led
+            int sub;
+            printf("\nEscolher cor LED: \n [0] Azul\n [1] Verde\n [2] Vermelho\n");
+            scanf("%d", &sub);
+            if(sub<=2 && sub>=0) {
+                set_led_color(r0, sub);
             } else {
                 printf("Valor invalido. Tente novamente.\n");
             }
