@@ -133,8 +133,11 @@
         }
     }
 
-    int read_status_display(unsigned short *r0) {
-        return (*r0 >> 0) & 0b1;
+    char* read_status_display(unsigned short *r0) {
+        int status = (*r0 >> 0) & 0b1;
+
+        if(status == 0) return "OFF";
+        else return "ON";
     }
 
     int read_display_mode(unsigned short *r0) {
@@ -243,15 +246,15 @@
                     printf("\n [0] Sair\n");
                     scanf("%d", &sub);
                     if(sub == 1) {
-                        printf("\nDisplay: %d\n\n", read_status_display(r0));
+                        printf("\nDisplay: %s\n", read_status_display(r0));
                     } else if(sub == 2) {
-                        printf("\nModo display: %d\n\n", read_display_mode(r0));
+                        printf("\nModo display: %d\n", read_display_mode(r0));
                     } else if(sub == 3) {
-                        printf("\nValor do refresh rate: %d\n\n", read_refresh_rate(r0));
+                        printf("\nValor do refresh rate: %d\n", read_refresh_rate(r0));
                     } else if(sub == 4) {
-                        printf("\nValor da led: %d\n\n", read_led_operation(r0));
+                        printf("\nValor da led: %d\n", read_led_operation(r0));
                     } else if(sub == 5) {
-                        printf("\nValor das cores: %d\n\n", read_color_led(r0));
+                        printf("\nValor das cores: %d\n", read_color_led(r0));
                     }
                 }
             } else if (choice != 0) {
