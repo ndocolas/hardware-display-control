@@ -85,9 +85,17 @@
         }
     }
 
-    void set_led_color(unsigned short *r0, int valor) {
+    void set_led_color(unsigned short *r0, int valor) {//000
         *r0 &= ~(7 << 10);
-        *r0 |= (1 << (10 + valor));
+        if(valor == 0) {
+             *r0 |= (1 << 10);
+        } else if(valor == 1) {
+            *r0 |= (3 << 10);
+        } else if(valor == 2) {
+            *r0 |= (1 << 11);
+        } else if(valor == 3) {
+            *r0 |= (1 << 11);
+        }
     }
 
     void activate_default_state(unsigned short *r0) {
