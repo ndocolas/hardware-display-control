@@ -231,15 +231,15 @@
             } else if(choice == 8) {
                 int sub = -1;
                 while(sub !=0) {
-                    printf("Menu de leitura: \n [1] Bit 0 (Display ON/OFF) \n [3]");
-                    printf(" [0] Sair");
+                    printf("Menu de leitura: \n [1] Bit 0 (Display ON/OFF) \n [2] Modo display \n [3] Valor refresh rate");
+                    printf("\n[0] Sair\n");
                     scanf("%d", &sub);
                     if(sub == 1) {
-                        read_status_display(r0);
+                        printf(read_status_display(r0));
                     } else if(sub == 2) {
-                        read_display_mode(r0);
+                        printf(read_display_mode(r0));
                     } else if(sub == 3) {
-                        read_refresh_rate(r0);
+                        printf(read_status_display(r0));
                     }
                 }
             } else if (choice != 0) {
