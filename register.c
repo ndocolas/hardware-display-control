@@ -243,15 +243,15 @@
                     printf("\n [0] Sair\n");
                     scanf("%d", &sub);
                     if(sub == 1) {
-                        printf("\nDisplay: %d\n", read_status_display(r0));
+                        printf("\nDisplay: %d\n\n", read_status_display(r0));
                     } else if(sub == 2) {
-                        printf("\nModo display: %d\n", read_display_mode(r0));
+                        printf("\nModo display: %d\n\n", read_display_mode(r0));
                     } else if(sub == 3) {
-                        printf("\nValor do refresh rate: %d\n", read_refresh_rate(r0));
+                        printf("\nValor do refresh rate: %d\n\n", read_refresh_rate(r0));
                     } else if(sub == 4) {
-                        printf("\nValor da led: %d\n", read_led_operation(r0));
+                        printf("\nValor da led: %d\n\n", read_led_operation(r0));
                     } else if(sub == 5) {
-                        printf("\nValor das cores: %d\n", read_color_led(r0));
+                        printf("\nValor das cores: %d\n\n", read_color_led(r0));
                     }
                 }
             } else if (choice != 0) {
