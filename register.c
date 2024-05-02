@@ -124,13 +124,29 @@
         }
     }
 
+    int read_status_display(unsigned short *r0) {
+        int bit_0 = (*r0 >> 0) & 0b1;
+
+        return bit_0;
+    }
+
+    int read_display_mode(unsigned short *r0) {
+        unsigned short bits_1_2 = (*r0 >> 1) & 0b11;
+        return bits_1_2;
+    }
+
+    int read_refresh_rate(unsigned short *r0) {
+        int bits_3_to_8 = (*r0 >> 3) & 0b111111;
+        return bits_3_to_8;
+    }
+
     void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2) {
         int choice = -1;
         while (choice != 0) {
-            printf("Menu de opcoes: \n [1] Ligar/Desligar display      [7] Alterar cor do Display\n [2] Selecionar modo de exibição");
+            printf("Menu de opcoes: \n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
             printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [5] Escolher cor LED \n");
-            printf(" [6] Restaurar Padrao\n");
-            printf(" [0] Finalizar execução\n");
+            printf(" [7] Alterar cor do Display\n\n");
+            printf(" [0] Finalizar execução    [6] Restaurar Padrao  [8] Leitura de Informacoes\n");
 
             scanf("%d", &choice);
 
@@ -191,7 +207,7 @@
             } else if (choice == 7) {
                 int sub = -1;
                 while(sub != 0) {
-                    printf("Alteracao de cor do display: \n\n [1] Vermelho\n [2] Verde\n [3] Azul\n [0] Sair\n");
+                    printf("Alteracao de cor do display: \n [1] Vermelho\n [2] Verde\n [3] Azul\n [0] Sair\n");
                     scanf("%d", &sub);
                     if(sub == 1) {
                         int valor;
@@ -212,7 +228,20 @@
                         printf("Valor invalido. Tente novamente.\n");
                     }
                 }
-            
+            } else if(choice == 8) {
+                int sub = -1;
+                while(sub !=0) {
+                    printf("Menu de leitura: \n [1] Bit 0 (Display ON/OFF) \n [3]");
+                    printf(" [0] Sair");
+                    if(sub == 1) {
+                        read_status_display(r0);
+                    } else if(sub == 2) {
+                        read_display_mode(r0);
+                    } else if(sub == 3) {
+                        read_refresh_rate(r0);
+                    }
+
+                }
             } else if (choice != 0) {
                 printf("Escolha inválida. Tente novamente.\n");
             }
@@ -231,7 +260,7 @@ int main() {
     unsigned short *r1 = base_address + 0x01;
     unsigned short *r2 = base_address + 0x02;
 
-    run_program(r0, r1);
+    run_program(r0, r1, r2);
 
     printf("Current value of R0: 0x%02x\n", *r0);
 
