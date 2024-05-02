@@ -171,6 +171,12 @@
 
     int read_number_of_times_screen(unsigned short *r3) {return ((*r3 >>2) & 0b1111);}
 
+    int read_temperature(unsigned short *r3) {
+        int temperature_bits = (*r3 >> 6) & 0b1111111111;
+        return temperature_bits = (temperature_bits & 0b1000000000) ? ((temperature_bits ^ 0b1111111111) + 1) : temperature_bits;
+    }
+
+
     void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, unsigned short *r3) {
         int choice = -1;
         int sub;
@@ -215,7 +221,7 @@
                 case 5:
                     int sub_case5 = -1;
                     while(sub_case5 != 0) {
-                        printf("Alteracao de cor do display: \n [1] Vermelho\n [2] Verde\n [3] Azul\n [0] Sair\n");
+                        printf("Alteracao de cor do display: \n [1] Vermelho\n [2] Verde\n [3] Azul\n\n [0] Sair\n");
                         scanf("%d", &sub_case5);
                         switch(sub_case5) {
                             case 1:
@@ -251,7 +257,8 @@
                     int sub_case7 = -1;
                     while(sub_case7 !=0) {
                         printf("Menu de leitura: \n [1] Status display \n [2] Modo display \n [3] Valor refresh rate \n");
-                        printf(" [4] Status led operation\n [5] Status RGB LED\n [6] Nivel da bateria");
+                        printf(" [4] Status led operation\n [5] Status RGB LED\n [6] Nivel da bateria\n");
+                        printf(" [7] Contagem de passagens no modo deslizante\n [8] Temperatura Atual")
                         printf("\n\n [0] Sair\n");
                         scanf("%d", &sub_case7);
                         switch(sub_case7) {
@@ -261,7 +268,8 @@
                             case 4:printf("\nValor da led: %s\n\n", read_led_operation(r0));break;
                             case 5:printf("\nValor das cores: %s\n\n", read_color_led(r0));break;
                             case 6:printf("\nNivel da bateria: %s\n\n", read_battery_status(r3));break;
-
+                            case 7:printf("\nContagem de passagens no modo deslizante: %d\n\n", read_number_of_times_screen(r3)); break;
+                            case 8:printf("\nTemperatura atual: %d\n\n", read_temperature(r3)); break;
                             default:
                             break;
                         }
