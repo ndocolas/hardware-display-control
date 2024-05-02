@@ -183,7 +183,7 @@
                 }
             } else if(choice == 6) {
                 int sub;
-                printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim");
+                printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim\n");
                 scanf("%d", &sub);
                 if(sub == 1) {
                     activate_default_state(r0);
@@ -191,7 +191,7 @@
             } else if (choice == 7) {
                 int sub = -1;
                 while(sub != 0) {
-                    printf("Alteracao de cor do display: \n\n [1] Vermelho\n [2] Verde\n [3] Azul\n [0] Sair");
+                    printf("Alteracao de cor do display: \n\n [1] Vermelho\n [2] Verde\n [3] Azul\n [0] Sair\n");
                     scanf("%d", &sub);
                     int valor;
                     if(sub == 1) {
@@ -210,7 +210,7 @@
                         printf("Valor invalido. Tente novamente.\n");
                     }
                 }
-            }
+            
             } else if (choice != 0) {
                 printf("Escolha inválida. Tente novamente.\n");
             }
