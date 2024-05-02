@@ -181,9 +181,9 @@
         int choice = -1;
         int sub;
         while (choice != 0) {
-            printf("Menu de opcoes: \n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
+            printf("Menu de opcoes: \n\n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
             printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [5] Alterar cor do Display\n\n");
-            printf(" [0] Finalizar execução  [6] Restaurar Padrao  [7] Leitura de Informacoes\n");
+            printf(" [0] Finalizar execução  [6] Restaurar Padrao  [7] Leitura de Informacoes\n\n");
 
             scanf("%d", &choice);
             switch(choice) {
@@ -256,9 +256,9 @@
                 case 7:
                     int sub_case7 = -1;
                     while(sub_case7 !=0) {
-                        printf("Menu de leitura: \n [1] Status display \n [2] Modo display \n [3] Valor refresh rate \n");
+                        printf("Menu de leitura: \n\n [1] Status display \n [2] Modo display \n [3] Valor refresh rate \n");
                         printf(" [4] Status led operation\n [5] Status RGB LED\n [6] Nivel da bateria\n");
-                        printf(" [7] Contagem de passagens no modo deslizante\n [8] Temperatura Atual")
+                        printf(" [7] Contagem de passagens no modo deslizante\n [8] Temperatura Atual");
                         printf("\n\n [0] Sair\n");
                         scanf("%d", &sub_case7);
                         switch(sub_case7) {
