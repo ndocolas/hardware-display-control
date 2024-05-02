@@ -124,7 +124,7 @@
         }
     }
 
-    int read_status_display(unsigned short *r0) {
+    void read_status_display(unsigned short *r0) {
         int bit_0 = (*r0 >> 0) & 0b1;
 
         return bit_0;
@@ -146,7 +146,7 @@
             printf("Menu de opcoes: \n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
             printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [5] Escolher cor LED \n");
             printf(" [7] Alterar cor do Display\n\n");
-            printf(" [0] Finalizar execução    [6] Restaurar Padrao  [8] Leitura de Informacoes\n");
+            printf(" [0] Finalizar execução  [6] Restaurar Padrao  [8] Leitura de Informacoes\n");
 
             scanf("%d", &choice);
 
@@ -235,11 +235,11 @@
                     printf("\n[0] Sair\n");
                     scanf("%d", &sub);
                     if(sub == 1) {
-                        printf(read_status_display(r0));
+                        printf("%d", read_status_display(r0));
                     } else if(sub == 2) {
-                        printf(read_display_mode(r0));
+                        printf("%d", read_display_mode(r0));
                     } else if(sub == 3) {
-                        printf(read_status_display(r0));
+                        printf("%d", read_status_display(r0));
                     }
                 }
             } else if (choice != 0) {
