@@ -205,6 +205,7 @@
                     } else {
                         printf("Valor invalido. Tente novamente.\n");
                     }
+                }
             } else if(choice == 6) {// restaurar padrao
                     int sub;
                     printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim\n");
