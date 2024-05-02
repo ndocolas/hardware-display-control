@@ -158,6 +158,8 @@
         return result;
     }
 
+    int read_battery_status_int(unsigned short *r3) {return (*r3 >>0) & 0b11;}
+
     char* read_battery_status(unsigned short *r3) {
         switch ((*r3 >>0) & 0b11) {
             case 0:return "Critico";break;
@@ -271,6 +273,8 @@
         }
     }
 
+    
+
 int main() {
     int fd;
     char* map = registers_map(FILE_PATH, FILE_SIZE, &fd);
@@ -285,7 +289,7 @@ int main() {
     unsigned short *r3 = base_address + 0x03;
 
 
-    set_led_color(r0, ((r3 >>0) & 0b11));
+    set_led_color(r0, read_battery_status_int(r3));
     run_program(r0, r1, r2, r3);
 
     if (registers_release(map, FILE_SIZE, fd) == -1) {
