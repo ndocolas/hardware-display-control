@@ -169,6 +169,8 @@
         }
     }
 
+    int read_number_of_times_screen(unsigned short *r3) {return ((*r3 >>2) & 0b1111);}
+
     void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, unsigned short *r3) {
         int choice = -1;
         int sub;
@@ -211,10 +213,11 @@
                     else printf("Valor invalido. Tente novamente.\n");
                  break;
                 case 5:
-                    while(sub != 0) {
+                    int sub_case5 = -1;
+                    while(sub_case5 != 0) {
                         printf("Alteracao de cor do display: \n [1] Vermelho\n [2] Verde\n [3] Azul\n [0] Sair\n");
-                        scanf("%d", &sub);
-                        switch(sub) {
+                        scanf("%d", &sub_case5);
+                        switch(sub_case5) {
                             case 1:
                                 int valor1;
                                 printf("\nDigite o valor para vermelho: ");
@@ -240,20 +243,18 @@
                     }
                  break;
                 case 6:
-                    
                     printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim\n");
                     scanf("%d", &sub);
-                    if(sub == 1) {
-                        activate_default_state(r0);
-                    }
+                    if(sub == 1) activate_default_state(r0);
                  break;
                 case 7:
-                    while(sub !=0) {
+                    int sub_case7 = -1;
+                    while(sub_case7 !=0) {
                         printf("Menu de leitura: \n [1] Status display \n [2] Modo display \n [3] Valor refresh rate \n");
                         printf(" [4] Status led operation\n [5] Status RGB LED\n [6] Nivel da bateria");
-                        printf("\n [0] Sair\n");
-                        scanf("%d", &sub);
-                        switch(sub) {
+                        printf("\n\n [0] Sair\n");
+                        scanf("%d", &sub_case7);
+                        switch(sub_case7) {
                             case 1:printf("\nDisplay: %s\n\n", read_status_display(r0));break;
                             case 2:printf("\nModo display: %s\n\n", read_display_mode(r0));break;
                             case 3:printf("\nValor do refresh rate: %d\n\n", read_refresh_rate(r0));break;
