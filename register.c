@@ -135,7 +135,7 @@
         return (*r3 >>0) & 0b1;
     }
 
-    void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2) {
+    void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, unsigned short *r3) {
         int choice = -1;
         while (choice != 0) {
             printf("Menu de opcoes: \n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
@@ -155,15 +155,15 @@
                     printf("Escolha inválida. Tente novamente.\n");
                 }
             } else if (choice == 2) {//modo exibicao
-            int sub;
-            printf("\nModo de Exibicao:\n [0] Estatico\n [1] Deslizante\n [2] Piscante\n [3] Deslizante/Piscante\n");
-            scanf("%d", &sub);
+                int sub;
+                printf("\nModo de Exibicao:\n [0] Estatico\n [1] Deslizante\n [2] Piscante\n [3] Deslizante/Piscante\n");
+                scanf("%d", &sub);
 
-            if(sub >= 0 && sub <= 3) {
-                set_display_mode(r0, sub);
-            } else {
-                printf("Escolha inexistente. Tente novamente.\n");
-            }
+                if(sub >= 0 && sub <= 3) {
+                    set_display_mode(r0, sub);
+                } else {
+                    printf("Escolha inexistente. Tente novamente.\n");
+                }
             } else if(choice == 3) {//refresh rate
                 int sub;
                 printf("\nRefresh Rate: \n\n Insira um valor entre 0 e 63!\nValor: ");
@@ -182,7 +182,7 @@
                 } else {
                     printf("Valor invalido. Tente novamente.\n");
                 }
-            }else if (choice == 5) {//alterar cor texto display
+            } else if (choice == 5) {//alterar cor texto display
                 int sub = -1;
                 while(sub != 0) {
                     printf("Alteracao de cor do display: \n [1] Vermelho\n [2] Verde\n [3] Azul\n [0] Sair\n");
@@ -205,13 +205,13 @@
                     } else {
                         printf("Valor invalido. Tente novamente.\n");
                     }
-                } else if(choice == 6) {// restaurar padrao
-                int sub;
-                printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim\n");
-                scanf("%d", &sub);
-                if(sub == 1) {
-                    activate_default_state(r0);
-                }
+            } else if(choice == 6) {// restaurar padrao
+                    int sub;
+                    printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim\n");
+                    scanf("%d", &sub);
+                    if(sub == 1) {
+                        activate_default_state(r0);
+                    }
             } else if(choice == 7) {//ler valores
                 int sub = -1;
                 while(sub !=0) {
