@@ -98,10 +98,6 @@
         }
 
         /*
-        10 R
-        11 G
-        12 B
-
         10 B
         11 G
         12 R
@@ -147,6 +143,14 @@
 
     int read_refresh_rate(unsigned short *r0) {
         return (*r0 >> 3) & 0b111111;
+    }
+
+    int read_led_operation(unsigned short *r0) {
+        return (*r0 >>9) & 0b1;
+    }
+
+    int read_color_led(unsigned short *r0) {
+        return (*r0 >> 10) &0b111;
     }
 
     int read_battery_status(unsigned short *r3) {
@@ -234,15 +238,20 @@
             } else if(choice == 7) {//ler valores
                 int sub = -1;
                 while(sub !=0) {
-                    printf("Menu de leitura: \n [1] Bit 0 (Display ON/OFF) \n [2] Modo display \n [3] Valor refresh rate");
+                    printf("Menu de leitura: \n [1] Bit 0 (Display ON/OFF) \n [2] Modo display \n [3] Valor refresh rate \n");
+                    printf(" [4] Valor led de operacao\n [5] Cores do led de status");
                     printf("\n [0] Sair\n");
                     scanf("%d", &sub);
                     if(sub == 1) {
-                        printf("%d\n", read_status_display(r0));
+                        printf("\nDisplay: %d\n", read_status_display(r0));
                     } else if(sub == 2) {
-                        printf("%d\n", read_display_mode(r0));
+                        printf("\nModo display: %d\n", read_display_mode(r0));
                     } else if(sub == 3) {
-                        printf("%d\n", read_refresh_rate(r0));
+                        printf("\nValor do refresh rate: %d\n", read_refresh_rate(r0));
+                    } else if(sub == 4) {
+                        printf("\nValor da led: %d\n", read_led_operation(r0));
+                    } else if(sub == 5) {
+                        printf("\nValor das cores: %d\n", read_color_led(r0));
                     }
                 }
             } else if (choice != 0) {
