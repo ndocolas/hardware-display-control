@@ -98,13 +98,7 @@
         }
     }
 
-    void activate_default_state(unsigned short *r0) {
-        *r0 = 0;
-
-        *r0 |= (1 << 0);
-        *r0 |= (2 << 3);
-        *r0 |= (1 << 10);
-    }
+    void activate_default_state(unsigned short *r0) {*r0 |= (1 << 9);}
 
     void def_color_red(unsigned short *r1, int valor) {
         *r1 &= ~(255 << 0);
