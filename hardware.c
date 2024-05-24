@@ -2,79 +2,79 @@
 #include <string.h>
 #include "hardware.h"
 
-void set_display_state(unsigned short *registers[0], int mode) {
+void set_display_state(unsigned short *r0, int mode) {
     if(mode == 1) {
-        *registers[0] |= (1 << 0);
+        *r0 |= (1 << 0);
     } else if(mode == 0){
-        *registers[0] &= ~(1 << 0);
+        *r0 &= ~(1 << 0);
     }
 }
 
-void set_display_mode(unsigned short *registers[0], int mode) {
+void set_display_mode(unsigned short *r0, int mode) {
     if (mode < 0 || mode > 3) {
         printf("Erro: Modo display inválido. O valor deve ser entre 0 e 3.\n");
         return;
     }
-    *registers[0] &= ~(3 << 1);
-    *registers[0] |= (mode << 1);
+    *r0 &= ~(3 << 1);
+    *r0 |= (mode << 1);
 }
 
-void set_refresh_rate(unsigned short *registers[0], int value) {
+void set_refresh_rate(unsigned short *r0, int value) {
     if (value < 0 || value > 63) {
         printf("Erro: %d Valor inválido. O valor deve ser entre 0 e 63.\n", value);
         return;
     }
-    *registers[0] &= ~(63 << 3);
-    *registers[0] |= (value << 3);
+    *r0 &= ~(63 << 3);
+    *r0 |= (value << 3);
 }
 
-void set_led_operation_state(unsigned short *registers[0], int state) {
+void set_led_operation_state(unsigned short *r0, int state) {
     if(state == 1) {
-        *registers[0] |= (1 << 9);
+        *r0 |= (1 << 9);
     } else {
-        *registers[0] &= ~(1 << 9);
+        *r0 &= ~(1 << 9);
     }
 }
 
-void set_led_color(unsigned short *registers[0], int value, int bit) {*registers[0] |= (value << bit);}
+void set_led_color(unsigned short *r0, int value, int bit) {*r0 |= (value << bit);}
 
-void def_led_color(unsigned short *registers[0], int value) {
-    *registers[0] &= ~(7 << 10);
+void def_led_color(unsigned short *r0, int value) {
+    *r0 &= ~(7 << 10);
     switch(value) {
-        case 0: set_led_color(registers[0], 1, 12);
-        case 1: set_led_color(registers[0], 3, 11);
-        case 2: set_led_color(registers[0], 1, 11);
-        case 3: set_led_color(registers[0], 1, 11);
+        case 0: set_led_color(r0, 1, 12);
+        case 1: set_led_color(r0, 3, 11);
+        case 2: set_led_color(r0, 1, 11);
+        case 3: set_led_color(r0, 1, 11);
     }
 }
 
-void activate_default_state(unsigned short *registers[0]) {*registers[0] |= (1 << 9);}
+void activate_default_state(unsigned short *r0) {*r0 |= (1 << 9);}
 
-void def_color_red(unsigned short *registers[1], int value) {
-    *registers[1] &= ~(255 << 0);
+void def_color_red(unsigned short *r1, int value) {
+    *r1 &= ~(255 << 0);
     if(value <= 255 && value >= 0) {
-        *registers[1] |= (value << 0);
+        *r1 |= (value << 0);
     }
 }
 
-void def_color_green(unsigned short *registers[1], int value) {
-    *registers[1] &= ~(255 << 8);
+void def_color_green(unsigned short *r1, int value) {
+    *r1 &= ~(255 << 8);
     if(value <= 255 && value >= 0) {
-        *registers[1] |= (value << 8);
+        *r1 |= (value << 8);
     }
 }
 
-void def_color_blue(unsigned short *registers[2], int value) {
-    *registers[2] &= ~(255 << 0);
+void def_color_blue(unsigned short *r2, int value) {
+    *r2 &= ~(255 << 0);
     if(value <= 255 && value >= 0) {
-        *registers[2] |= (value << 0);
+        *r2 |= (value << 0);
     }
 }
 
-char* read_status_display(unsigned short *registers[0]) {return (((*registers[0] >> 0) & 0b1) == 0) ? "OFF" : "ON";}
+char* read_status_display(unsigned short *r0) {return (((*r0 >> 0) & 0b1) == 0) ? "OFF" : "ON";}
 
-char* read_display_mode(unsigned short *registers[0]) {
-    switch((*registers[0] >> 1) & 0b11) {
+char* read_display_mode(unsigned short *r0) {
+    switch((*r0 >> 1) & 0b11) {
         case 0: return "Estatico";
         case 1: return "Deslizante";
         case 2: return "Piscante";
@@ -83,21 +83,21 @@ char* read_display_mode(unsigned short *registers[0]) {
     }
 }
 
-int read_refresh_rate(unsigned short *registers[0]) {return ((*registers[0] >> 3) & 0b111111);}
+int read_refresh_rate(unsigned short *r0) {return ((*r0 >> 3) & 0b111111);}
 
-char* read_led_operation(unsigned short *registers[0]) {return (((*registers[0] >> 9) & 0b1) == 0) ? "OFF" : "ON";}
+char* read_led_operation(unsigned short *r0) {return (((*r0 >> 9) & 0b1) == 0) ? "OFF" : "ON";}
 
-char* read_color_led(unsigned short *registers[0]) {
+char* read_color_led(unsigned short *r0) {
     static char result[64];
-        snprintf(result, sizeof(result), "Valor:\n [R] : %d\n [G] : %d\n [B] : %d", 
-             ((*registers[0] >> 12) & 0b1)), ((*registers[0] >> 11) & 0b1), ((*registers[0] >> 10) & 0b1);
+    snprintf(result, sizeof(result), "Valor:\n [R] : %d\n [G] : %d\n [B] : %d", 
+             ((*r0 >> 12) & 0b1), ((*r0 >> 11) & 0b1), ((*r0 >> 10) & 0b1));
     return result;
 }
 
-int read_battery_status_int(unsigned short *registers[3]) {return (*registers[3] >> 0) & 0b11;}
+int read_battery_status_int(unsigned short *r3) {return (*r3 >> 0) & 0b11;}
 
-char* read_battery_status(unsigned short *registers[3]) {
-    switch ((*registers[3] >> 0) & 0b11) {
+char* read_battery_status(unsigned short *r3) {
+    switch ((*r3 >> 0) & 0b11) {
         case 0: return "Critico";
         case 1: return "Baixo";
         case 2: return "Medio";
@@ -106,10 +106,10 @@ char* read_battery_status(unsigned short *registers[3]) {
     }
 }
 
-int read_number_of_times_screen(unsigned short *registers[3]) {return ((*registers[3] >> 2) & 0b1111);}
+int read_number_of_times_screen(unsigned short *r3) {return ((*r3 >> 2) & 0b1111);}
 
-int read_temperature(unsigned short *registers[3]) {
-    int temperature_bits = (*registers[3] >> 6) & 0b1111111111;
+int read_temperature(unsigned short *r3) {
+    int temperature_bits = (*r3 >> 6) & 0b1111111111;
     return (temperature_bits & 0b1000000000) ? ((temperature_bits ^ 0b1111111111) + 1) : temperature_bits;
 }
 

@@ -41,3 +41,5 @@ clean:
 	rm -f $(OBJS) $(STATIC_LIB) $(DYNAMIC_LIB) $(EXE)
 
 .PHONY: all clean
+
+clear: clean
