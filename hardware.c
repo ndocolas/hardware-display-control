@@ -69,16 +69,18 @@ void def_word(unsigned short *r[], char word[]) {
 
     int word_index = 0;
     while (word_index < word_length || register_index <= 15) {
-        *r[register_index] = 0;
+        *r[register_index] &= ~(255 << 8);
+        *r[register_index] &= ~(255 << 0);
+
         int ascii_value = word[word_index];
-        
+
         *r[register_index] |= (ascii_value << 0);
-        
+
         ascii_value = word[word_index++];
 
         *r[register_index] |= (ascii_value << 8);
-        
-        word_index+=1;
+
+        word_index++;
         register_index++;
     }
 }
