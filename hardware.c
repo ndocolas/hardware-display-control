@@ -35,39 +35,42 @@ void set_led_operation_state(unsigned short *r0, int state) {
     }
 }
 
-void set_led_color(unsigned short *r0, int valor) {
+void set_led_color(unsigned short *r0, int bit, int value) {*r0 |= (value << bit);}
+
+void def_led_color(unsigned short *r0, int value) {
     *r0 &= ~(7 << 10);
-    *r0 |= (valor << 10);
+    switch(value) {
+        case 0: set_led_color(r0, 1, 12);
+        case 1: set_led_color(r0, 3, 11);
+        case 2: set_led_color(r0, 1, 11);
+        case 3: set_led_color(r0, 1, 11);
+    }
 }
 
-void activate_default_state(unsigned short *r0) {
-    *r0 |= (1 << 9);
-}
+void activate_default_state(unsigned short *r0) {*r0 |= (1 << 9);}
 
-void def_color_red(unsigned short *r1, int valor) {
+void def_color_red(unsigned short *r1, int value) {
     *r1 &= ~(255 << 0);
-    if(valor <= 255 && valor >= 0) {
-        *r1 |= (valor << 0);
+    if(value <= 255 && value >= 0) {
+        *r1 |= (value << 0);
     }
 }
 
-void def_color_green(unsigned short *r1, int valor) {
+void def_color_green(unsigned short *r1, int value) {
     *r1 &= ~(255 << 8);
-    if(valor <= 255 && valor >= 0) {
-        *r1 |= (valor << 8);
+    if(value <= 255 && value >= 0) {
+        *r1 |= (value << 8);
     }
 }
 
-void def_color_blue(unsigned short *r2, int valor) {
+void def_color_blue(unsigned short *r2, int value) {
     *r2 &= ~(255 << 0);
-    if(valor <= 255 && valor >= 0) {
-        *r2 |= (valor << 0);
+    if(value <= 255 && value >= 0) {
+        *r2 |= (value << 0);
     }
 }
 
-char* read_status_display(unsigned short *r0) {
-    return (((*r0 >> 0) & 0b1) == 0) ? "OFF" : "ON";
-}
+char* read_status_display(unsigned short *r0) {return (((*r0 >> 0) & 0b1) == 0) ? "OFF" : "ON";}
 
 char* read_display_mode(unsigned short *r0) {
     switch((*r0 >> 1) & 0b11) {
@@ -79,24 +82,18 @@ char* read_display_mode(unsigned short *r0) {
     }
 }
 
-int read_refresh_rate(unsigned short *r0) {
-    return ((*r0 >> 3) & 0b111111);
-}
+int read_refresh_rate(unsigned short *r0) {return ((*r0 >> 3) & 0b111111);}
 
-char* read_led_operation(unsigned short *r0) {
-    return (((*r0 >> 9) & 0b1) == 0) ? "OFF" : "ON";
-}
+char* read_led_operation(unsigned short *r0) {return (((*r0 >> 9) & 0b1) == 0) ? "OFF" : "ON";}
 
 char* read_color_led(unsigned short *r0) {
     static char result[64];
-    snprintf(result, sizeof(result), "Valor:\n [B] 10: %d\n [G] 11: %d\n [R] 12: %d", 
+    snprintf(result, sizeof(result), "value:\n [B] 10: %d\n [G] 11: %d\n [R] 12: %d", 
              ((*r0 >> 10) & 0b1), ((*r0 >> 11) & 0b1), ((*r0 >> 12) & 0b1));
     return result;
 }
 
-int read_battery_status_int(unsigned short *r3) {
-    return (*r3 >> 0) & 0b11;
-}
+int read_battery_status_int(unsigned short *r3) {return (*r3 >> 0) & 0b11;}
 
 char* read_battery_status(unsigned short *r3) {
     switch ((*r3 >> 0) & 0b11) {
@@ -140,16 +137,16 @@ void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, uns
                 else printf("Escolha inexistente. Tente novamente.\n");
                 break;
             case 3:
-                printf("\nRefresh Rate: \n\n Insira um valor entre 0 e 63!\nValor: ");
+                printf("\nRefresh Rate: \n\n Insira um value entre 0 e 63!\nvalue: ");
                 scanf("%d", &sub);
                 if(sub >= 0 && sub <= 63) set_refresh_rate(r0, sub);
-                else printf("Valor invalido. Tente novamente.\n");
+                else printf("value invalido. Tente novamente.\n");
                 break;
             case 4:
                 printf("\nLigar/Desligar: \n [0] Desligar\n [1] Ligar\n");
                 scanf("%d", &sub);
                 if(sub <= 1 && sub >= 0) set_led_operation_state(r0, sub);
-                else printf("Valor invalido. Tente novamente.\n");
+                else printf("value invalido. Tente novamente.\n");
                 break;
             case 5:
                 while(1) {
@@ -157,25 +154,25 @@ void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, uns
                     int sub_case5;
                     scanf("%d", &sub_case5);
                     if(sub_case5 == 0) break;
-                    int valor;
+                    int value;
                     switch(sub_case5) {
                         case 1:
-                            printf("\nDigite o valor para vermelho: ");
-                            scanf("%d", &valor);
-                            def_color_red(r1, valor);
+                            printf("\nDigite o value para vermelho: ");
+                            scanf("%d", &value);
+                            def_color_red(r1, value);
                             break;
                         case 2:
-                            printf("\nDigite o valor para verde: ");
-                            scanf("%d", &valor);
-                            def_color_green(r1, valor);
+                            printf("\nDigite o value para verde: ");
+                            scanf("%d", &value);
+                            def_color_green(r1, value);
                             break;
                         case 3:
-                            printf("\nDigite o valor para azul: ");
-                            scanf("%d", &valor);
-                            def_color_blue(r2, valor);
+                            printf("\nDigite o value para azul: ");
+                            scanf("%d", &value);
+                            def_color_blue(r2, value);
                             break;
                         default:
-                            printf("Valor inválido. Tente novamente.\n");
+                            printf("value inválido. Tente novamente.\n");
                     }
                 }
                 break;
@@ -186,7 +183,7 @@ void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, uns
                 break;
             case 7:
                 while(1) {
-                    printf("Menu de leitura: \n\n [1] Status display \n [2] Modo display \n [3] Valor refresh rate \n");
+                    printf("Menu de leitura: \n\n [1] Status display \n [2] Modo display \n [3] value refresh rate \n");
                     printf(" [4] Status led operation\n [5] Status RGB LED\n [6] Nivel da bateria\n");
                     printf(" [7] Contagem de passagens no modo deslizante\n [8] Temperatura Atual");
                     printf("\n\n [0] Sair\n");
@@ -196,9 +193,9 @@ void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, uns
                     switch(sub_case7) {
                         case 1: printf("\nDisplay: %s\n\n", read_status_display(r0)); break;
                         case 2: printf("\nModo display: %s\n\n", read_display_mode(r0)); break;
-                        case 3: printf("\nValor do refresh rate: %d\n\n", read_refresh_rate(r0)); break;
-                        case 4: printf("\nValor da led: %s\n\n", read_led_operation(r0)); break;
-                        case 5: printf("\nValor das cores: %s\n\n", read_color_led(r0)); break;
+                        case 3: printf("\nvalue do refresh rate: %d\n\n", read_refresh_rate(r0)); break;
+                        case 4: printf("\nvalue da led: %s\n\n", read_led_operation(r0)); break;
+                        case 5: printf("\nvalue das cores: %s\n\n", read_color_led(r0)); break;
                         case 6: printf("\nNivel da bateria: %s\n\n", read_battery_status(r3)); break;
                         case 7: printf("\nContagem de passagens no modo deslizante: %d\n\n", read_number_of_times_screen(r3)); break;
                         case 8: printf("\nTemperatura atual: %d\n\n", read_temperature(r3)); break;

@@ -60,7 +60,7 @@ int main() {
     unsigned short *r2 = base_address + 0x02;
     unsigned short *r3 = base_address + 0x03;
 
-    set_led_color(r0, read_battery_status_int(r3));
+    def_led_color(r0, read_battery_status_int(r3));
     run_program(r0, r1, r2, r3);
 
     if (registers_release(map, FILE_SIZE, fd) == -1) {

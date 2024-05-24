@@ -5,11 +5,13 @@ void set_display_state(unsigned short *r0, int mode);
 void set_display_mode(unsigned short *r0, int mode);
 void set_refresh_rate(unsigned short *r0, int value);
 void set_led_operation_state(unsigned short *r0, int state);
-void set_led_color(unsigned short *r0, int valor); // Corrigido parâmetro
+void set_led_color(unsigned short *r0, int bit, int value); //imp
+void def_led_color(unsigned short *r0, int value); // Corrigido parâmetro
 void activate_default_state(unsigned short *r0);
-void def_color_red(unsigned short *r1, int valor);
-void def_color_green(unsigned short *r1, int valor);
-void def_color_blue(unsigned short *r2, int valor);
+void def_color_red(unsigned short *r1, int value);
+void def_color_green(unsigned short *r1, int value);
+void def_color_blue(unsigned short *r2, int value);
+
 char* read_status_display(unsigned short *r0);
 char* read_display_mode(unsigned short *r0);
 int read_refresh_rate(unsigned short *r0);
