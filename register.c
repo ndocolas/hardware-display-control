@@ -55,13 +55,15 @@ int main() {
     }
 
     unsigned short *base_address = (unsigned short *)map;
-    unsigned short *r0 = base_address + 0x00;
-    unsigned short *r1 = base_address + 0x01;
-    unsigned short *r2 = base_address + 0x02;
-    unsigned short *r3 = base_address + 0x03;
 
-    def_led_color(r0, read_battery_status_int(r3));
-    run_program(r0, r1, r2, r3);
+    unsigned short *registers[16];
+
+    for (int i = 0; i<16; i++) {
+        registers[i] = base_address +  i;
+    }
+
+    def_led_color(registers[0], read_battery_status_int(registers[3]));
+    run_program(registers);
 
     if (registers_release(map, FILE_SIZE, fd) == -1) {
         return EXIT_FAILURE;
