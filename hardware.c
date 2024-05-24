@@ -113,7 +113,7 @@ int read_temperature(unsigned short *r3) {
     return (temperature_bits & 0b1000000000) ? ((temperature_bits ^ 0b1111111111) + 1) : temperature_bits;
 }
 
-void set_word(unsigned short *r[], char word[]) {
+void def_word(unsigned short *r[], char word[]) {
     int word_length = strlen(word);
     int register_index = 4;
 
@@ -140,7 +140,7 @@ void run_program(unsigned short *registers[]) {
     int sub;
     while (choice != 0) {
         printf("Menu de opcoes: \n\n [1] Ligar/Desligar display\n [2] Selecionar modo de exibição");
-        printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [5] Alterar cor do Display\n\n");
+        printf("\n [3] Alterar Refresh Rate\n [4] Ligar/Desligar LED operação\n [5] Alterar cor do Display\n [6] Definir palavra Display\n\n");
         printf(" [0] Finalizar execução  [7] Restaurar Padrao  [8] Leitura de Informacoes\n\n");
 
         scanf("%d", &choice);
@@ -198,7 +198,11 @@ void run_program(unsigned short *registers[]) {
                 }
                 break;
             case 6:
-
+                printf("\nDigite a palavra desejada: ");
+                char word[30];
+                scanf("%s", word);
+                def_word(registers, word);
+                break;
             case 7:
                 printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim\n");
                 scanf("%d", &sub);
