@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "hardware.h"
 
 void set_display_state(unsigned short *r0, int mode) {
@@ -71,6 +72,28 @@ void def_color_blue(unsigned short *r2, int value) {
     }
 }
 
+void def_word(unsigned short *r[], char word[]) {
+    int word_length = strlen(word);
+    int register_index = 4;
+
+    int word_index = 0;
+    while (word_index < word_length || register_index <= 15) {
+        *r[register_index] &= ~(255 << 8);
+        *r[register_index] &= ~(255 << 0);
+
+        int ascii_value = word[word_index];
+        
+        *r[register_index] |= (ascii_value << 0); // Seta o byte de baixa ordem diretamente
+
+        ascii_value = word[word_index++];
+
+        *r[register_index] |= (ascii_value << 8); // Limpa o byte de alta ordem
+        
+        word_index++; // Incrementa por 2 para processar os caracteres em pares
+        register_index++;
+    }
+}
+
 char* read_status_display(unsigned short *r0) {return (((*r0 >> 0) & 0b1) == 0) ? "OFF" : "ON";}
 
 char* read_display_mode(unsigned short *r0) {
@@ -113,29 +136,14 @@ int read_temperature(unsigned short *r3) {
     return (temperature_bits & 0b1000000000) ? ((temperature_bits ^ 0b1111111111) + 1) : temperature_bits;
 }
 
-void def_word(unsigned short *r[], char word[]) {
-    int word_length = strlen(word);
-    int register_index = 4;
-
-    int word_index = 0;
-    while (word_index < word_length && register_index <= 15) {
-        char current_char = word[word_index];
-        
-        int index = register_index - 4;
-        
-        r[index][0] = current_char; // Seta o byte de baixa ordem diretamente
-        r[index][1] = 0; // Limpa o byte de alta ordem
-        
-        if (word_index + 1 < word_length) { // Verifica se há outro caractere na palavra
-            current_char = word[word_index + 1];
-            r[index][1] = current_char << 8; // Define o byte de alta ordem
-        }
-        
-        word_index += 2; // Incrementa por 2 para processar os caracteres em pares
-        register_index++;
+void read_word(unsigned short *r[]) {
+    for(int i = 4; i<16; i++) {
+        int bit_first = ((*r[i] >> 0) & 0b01111111);
+        int bit_second = ((*r[i] >> 8) & 0b01111111);
+        printf("R%d: %d-%d\n", i, bit_first, bit_second);
+        printf("R%d: %d\n", i, ((*r[i] >> 0) & 0b0111111111111111));
     }
 }
-
 
 void run_program(unsigned short *registers[]) {
     int choice = -1;
@@ -214,7 +222,7 @@ void run_program(unsigned short *registers[]) {
                 while(1) {
                     printf("Menu de leitura: \n\n [1] Status display \n [2] Modo display \n [3] valor refresh rate \n");
                     printf(" [4] Status led operation\n [5] Status RGB LED\n [6] Nivel da bateria\n");
-                    printf(" [7] Contagem de passagens no modo deslizante\n [8] Temperatura Atual");
+                    printf(" [7] Contagem de passagens no modo deslizante\n [8] Temperatura Atual\n [9] Registers\n");
                     printf("\n\n [0] Sair\n");
                     int sub_case7;
                     scanf("%d", &sub_case7);
@@ -228,6 +236,7 @@ void run_program(unsigned short *registers[]) {
                         case 6: printf("\nNivel da bateria: %s\n\n", read_battery_status(registers[3])); break;
                         case 7: printf("\nContagem de passagens no modo deslizante: %d\n\n", read_number_of_times_screen(registers[3])); break;
                         case 8: printf("\nTemperatura atual: %d\n\n", read_temperature(registers[3])); break;
+                        case 9: read_word(registers); break;
                         default: printf("Escolha inválida. Tente novamente.\n"); break;
                     }
                 }

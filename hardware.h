@@ -22,6 +22,8 @@ int read_battery_status_int(unsigned short *r3);
 char* read_battery_status(unsigned short *r3);
 int read_number_of_times_screen(unsigned short *r3);
 int read_temperature(unsigned short *r3);
+void read_word(unsigned short *r[]);
+
 void run_program(unsigned short *registers[]);
 
 #endif
