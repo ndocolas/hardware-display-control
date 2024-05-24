@@ -4,53 +4,48 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include "hardware.c"
+#include "hardware.h"
 
 #define FILE_PATH "registers.bin"
-#define FILE_SIZE 1024  // Same size as used in the first program
+#define FILE_SIZE 1024
 
-// Function to open or create the file and map it into memory
-    char* registers_map(const char* file_path, int file_size, int* fd) {
-        *fd = open(file_path, O_RDWR | O_CREAT, 0666);
-        if (*fd == -1) {
-            perror("Error opening or creating file");
-            return NULL;
-        }
+char* registers_map(const char* file_path, int file_size, int* fd) {
+    *fd = open(file_path, O_RDWR | O_CREAT, 0666);
+    if (*fd == -1) {
+        perror("Error opening or creating file");
+        return NULL;
+    }
 
-        // Ensure the file is of the correct size
-        if (ftruncate(*fd, file_size) == -1) {
-            perror("Error setting file size");
-            close(*fd);
-            return NULL;
-        }
+    if (ftruncate(*fd, file_size) == -1) {
+        perror("Error setting file size");
+        close(*fd);
+        return NULL;
+    }
 
-        // Map the file into memory
     char *map = mmap(0, file_size, PROT_READ | PROT_WRITE, MAP_SHARED, *fd, 0);
-        if (map == MAP_FAILED) {
-            perror("Error mapping file");
-            close(*fd);
-            return NULL;
-        }
-
-        return map;
+    if (map == MAP_FAILED) {
+        perror("Error mapping file");
+        close(*fd);
+        return NULL;
     }
 
-    int registers_release(void* map, int file_size, int fd) {
-        if (munmap(map, file_size) == -1) {
-            perror("Error unmapping the file");
-            close(fd);
-            return -1;
-        }
+    return map;
+}
 
-        if (close(fd) == -1) {
-            perror("Error closing file");
-            return -1;
-        }
-
-        return 0;
+int registers_release(void* map, int file_size, int fd) {
+    if (munmap(map, file_size) == -1) {
+        perror("Error unmapping the file");
+        close(fd);
+        return -1;
     }
 
-    
+    if (close(fd) == -1) {
+        perror("Error closing file");
+        return -1;
+    }
+
+    return 0;
+}
 
 int main() {
     int fd;
@@ -64,7 +59,6 @@ int main() {
     unsigned short *r1 = base_address + 0x01;
     unsigned short *r2 = base_address + 0x02;
     unsigned short *r3 = base_address + 0x03;
-
 
     set_led_color(r0, read_battery_status_int(r3));
     run_program(r0, r1, r2, r3);

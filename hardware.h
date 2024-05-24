@@ -1,20 +1,24 @@
-void set_display_state();
-void set_display_mode();
-void set_refresh_rate();
-void set_led_operation_state();
-void set_led_color(); //adicionar def_color
-void activate_default_state();
-void def_color_red();
-void def_color_green();
-void def_color_blue();
-char* read_status_display();
-char* read_display_mode();
-int read_refresh_rate();
-char* read_led_operation();
-char* read_color_led();
-int read_battery_status_int();
-char* read_battery_status();
-int read_number_of_times_screen();
-int read_temperature();
-void run_program();
+#ifndef HARDWARE_H
+#define HARDWARE_H
 
+void set_display_state(unsigned short *r0, int mode);
+void set_display_mode(unsigned short *r0, int mode);
+void set_refresh_rate(unsigned short *r0, int value);
+void set_led_operation_state(unsigned short *r0, int state);
+void set_led_color(unsigned short *r0, int valor); // Corrigido parâmetro
+void activate_default_state(unsigned short *r0);
+void def_color_red(unsigned short *r1, int valor);
+void def_color_green(unsigned short *r1, int valor);
+void def_color_blue(unsigned short *r2, int valor);
+char* read_status_display(unsigned short *r0);
+char* read_display_mode(unsigned short *r0);
+int read_refresh_rate(unsigned short *r0);
+char* read_led_operation(unsigned short *r0);
+char* read_color_led(unsigned short *r0);
+int read_battery_status_int(unsigned short *r3);
+char* read_battery_status(unsigned short *r3);
+int read_number_of_times_screen(unsigned short *r3);
+int read_temperature(unsigned short *r3);
+void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, unsigned short *r3);
+
+#endif // HARDWARE_H
