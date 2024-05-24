@@ -87,12 +87,12 @@ void def_word(unsigned short *r[], char word[]) {
 
 int read_display_state_value(unsigned short *r0) {return ((*r0 >> 0) & 0b1) == 0;}
 
-char* read_display_state(unsigned short *r0) {return read_display_state_value(*r0) ? "OFF" : "ON";}
+char* read_display_state(unsigned short *r0) {return read_display_state_value(r0) ? "OFF" : "ON";}
 
 int read_display_mode_value(unsigned short *r0) {return ((*r0 >> 1) & 0b11);}
 
 char* read_display_mode(unsigned short *r0) {
-    switch(read_display_mode_value(*r0)) {
+    switch(read_display_mode_value(r0)) {
         case 0: return "Estatico";
         case 1: return "Deslizante";
         case 2: return "Piscante";
@@ -104,7 +104,7 @@ char* read_display_mode(unsigned short *r0) {
 int read_refresh_rate(unsigned short *r0) {return ((*r0 >> 3) & 0b111111);}
 
 int read_led_operation_value(unsigned short *r0) {return ((*r0 >> 9) & 0b1) == 0;}
-char* read_led_operation(unsigned short *r0) {return read_led_operation_value(*r0) ? "OFF" : "ON";}
+char* read_led_operation(unsigned short *r0) {return read_led_operation_value(r0) ? "OFF" : "ON";}
 
 int read_color_display_red(unsigned short *r1) {return((*r1 >> 0) & 0b11111111);}
 int read_color_display_green(unsigned short *r1) {return((*r1 >> 8) & 0b11111111);}
@@ -113,9 +113,9 @@ int read_color_display_blue(unsigned short *r2) {return((*r2 >> 10) & 0b11111111
 char* read_color_display(unsigned short *r1, unsigned short *r2) {
     static char result[64];
     snprintf(result, sizeof(result), "Valor:\n [R] : %d\n [G] : %d\n [B] : %d", 
-             read_color_display_red(*r1), 
-             read_color_display_green(*r1), 
-             read_color_display_blue(*r2));
+             read_color_display_red(r1), 
+             read_color_display_green(r1), 
+             read_color_display_blue(r2));
     return result;
 }
 
