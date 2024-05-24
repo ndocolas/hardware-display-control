@@ -66,17 +66,15 @@ void def_color_blue(unsigned short *r2, int value) {
 void def_word(unsigned short *r[], char word[]) {
     int word_length = strlen(word);
     int register_index = 4;
+    for(int i =  register_index; i<16; i++) {*r[i] = 0;}
 
     int word_index = 0;
     while (word_index < word_length || register_index <= 15) {
-        *r[register_index] &= ~(255 << 8);
-        *r[register_index] &= ~(255 << 0);
-
         int ascii_value = word[word_index];
 
-        *r[register_index] |= (ascii_value << 0);//a
-
-        int ascii_value_two = word[word_index++];
+        *r[register_index] |= (ascii_value << 0);
+        word_index++;
+        int ascii_value_two = word[word_index];
 
         *r[register_index] |= (ascii_value_two << 8);
 
