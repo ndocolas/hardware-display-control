@@ -125,24 +125,30 @@ void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, uns
         scanf("%d", &choice);
         switch(choice) {
             case 1:
+                        
                 printf("\nLigar/Desligar display: \n [0] Desligar\n [1] Ligar\n");
                 scanf("%d", &sub);
-                if (sub == 1 || sub == 0) set_display_state(r0, sub);
+
+                if (sub==1 || sub==0) set_display_state(r0, sub);
                 else printf("Escolha inválida. Tente novamente.\n");
+
                 break;
             case 2:
                 printf("\nModo de Exibição:\n [0] Estatico\n [1] Deslizante\n [2] Piscante\n [3] Deslizante/Piscante\n");
                 scanf("%d", &sub);
-                if(sub >= 0 && sub <= 3) set_display_mode(r0, sub);
+
+                if(sub >= 0 && sub <= 3)  set_display_mode(r0, sub);
                 else printf("Escolha inexistente. Tente novamente.\n");
                 break;
             case 3:
-                printf("\nRefresh Rate: \n\n Insira um value entre 0 e 63!\nvalue: ");
+                    
+                printf("\nRefresh Rate: \n\n Insira um valor entre 0 e 63!\nValor: ");
                 scanf("%d", &sub);
                 if(sub >= 0 && sub <= 63) set_refresh_rate(r0, sub);
                 else printf("Valor invalido. Tente novamente.\n");
                 break;
             case 4:
+                    
                 printf("\nLigar/Desligar: \n [0] Desligar\n [1] Ligar\n");
                 scanf("%d", &sub);
                 if(sub <= 1 && sub >= 0) set_led_operation_state(r0, sub);
@@ -153,8 +159,6 @@ void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, uns
                     printf("Alteração de cor do display: \n [1] Vermelho\n [2] Verde\n [3] Azul\n\n [0] Sair\n");
                     int sub_case5;
                     scanf("%d", &sub_case5);
-                    if(sub_case5 == 0) break;
-                    int value;
                     switch(sub_case5) {
                         case 1:
                             printf("\nDigite o valor para vermelho: ");
@@ -173,23 +177,24 @@ void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, uns
                             break;
                         default:
                             printf("Valor inválido. Tente novamente.\n");
+                            printf("Valor inválido. Tente novamente.\n");
                     }
+                
                 }
-                break;
+             break;
             case 6:
                 printf("\nRestaurar Padrao: \nVoce deseja restaurar para o padrao de fabrica? \n [0] Nao \n [1] Sim\n");
                 scanf("%d", &sub);
                 if(sub == 1) activate_default_state(r0);
                 break;
             case 7:
-                while(1) {
-                    printf("Menu de leitura: \n\n [1] Status display \n [2] Modo display \n [3] value refresh rate \n");
+                int sub_case7 = -1;
+                while(sub_case7 !=0) {
+                    printf("Menu de leitura: \n\n [1] Status display \n [2] Modo display \n [3] Valor refresh rate \n");
                     printf(" [4] Status led operation\n [5] Status RGB LED\n [6] Nivel da bateria\n");
                     printf(" [7] Contagem de passagens no modo deslizante\n [8] Temperatura Atual");
                     printf("\n\n [0] Sair\n");
-                    int sub_case7;
                     scanf("%d", &sub_case7);
-                    if(sub_case7 == 0) break;
                     switch(sub_case7) {
                         case 1: printf("\nDisplay: %s\n\n", read_status_display(r0)); break;
                         case 2: printf("\nModo display: %s\n\n", read_display_mode(r0)); break;
@@ -203,11 +208,10 @@ void run_program(unsigned short *r0, unsigned short *r1, unsigned short *r2, uns
                     }
                 }
                 break;
-            case 0:
-                break;
-            default:
-                printf("Escolha inválida. Tente novamente.\n");
-                break;
+             default:
+            if(choice ==0) break;
+            printf("Escolha inválida. Tente novamente.\n");
+            break;
         }
     }
 }
