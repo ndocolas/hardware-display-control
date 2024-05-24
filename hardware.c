@@ -74,11 +74,11 @@ void def_word(unsigned short *r[], char word[]) {
 
         int ascii_value = word[word_index];
 
-        *r[register_index] |= (ascii_value << 0);
+        *r[register_index] |= (ascii_value << 0);//a
 
-        ascii_value = word[word_index++];
+        int ascii_value_two = word[word_index++];
 
-        *r[register_index] |= (ascii_value << 8);
+        *r[register_index] |= (ascii_value_two << 8);
 
         word_index++;
         register_index++;
@@ -220,7 +220,7 @@ void run_program(unsigned short *registers[]) {
                 break;
             case 6:
                 printf("\nDigite a palavra desejada: ");
-                char word[30];
+                char word[22];
                 scanf("%s", word);
                 def_word(registers, word);
                 break;
