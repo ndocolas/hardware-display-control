@@ -66,11 +66,13 @@ void def_color_blue(unsigned short *r2, int value) {
 void def_word(unsigned short *r[], char word[]) {
     int word_length = strlen(word);
     int register_index = 4;
+    for(int i = register_index; i <16; i++) {
+        *r[register_index] = 0;
+        *r[register_index] = 0;
+    }
 
     int word_index = 0;
     while (word_index < word_length || register_index <= 15) {
-        *r[register_index] &= ~(255 << 8);
-        *r[register_index] &= ~(255 << 0);
 
         int ascii_value = word[word_index];
         
@@ -138,12 +140,21 @@ int read_temperature(unsigned short *r3) {
     return (temperature_bits & 0b1000000000) ? ((temperature_bits ^ 0b1111111111) + 1) : temperature_bits;
 }
 
+void print_binary(int value, int size) {
+    for (int i = size - 1; i >= 0; i--) {
+        printf("%d", (value >> i) & 1);
+    }
+}
+
 void read_word(unsigned short *r[]) {
     for(int i = 4; i<16; i++) {
         int bit_first = ((*r[i] >> 0) & 0b01111111);
         int bit_second = ((*r[i] >> 8) & 0b01111111);
-        printf("R%d: %d-%d\n", i, bit_first, bit_second);
-        printf("R%d: %d\n", i, ((*r[i] >> 0) & 0b0111111111111111));
+        printf("R%d: ", i);
+        print_binary(bit_first, 7);
+        printf("-");
+        print_binary(bit_second, 7);
+        printf("\n");
     }
 }
 
