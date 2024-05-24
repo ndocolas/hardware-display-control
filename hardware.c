@@ -119,24 +119,23 @@ void def_word(unsigned short *r[], char word[]) {
 
     int word_index = 0;
     while (word_index < word_length && register_index <= 15) {
-        char current_char = word[word_index++];
+        char current_char = word[word_index];
         
         int index = register_index - 4;
         
-        r[index][0] &= ~(255);
-        r[index][1] &= ~(255 << 8);
+        r[index][0] = current_char; // Seta o byte de baixa ordem diretamente
+        r[index][1] = 0; // Limpa o byte de alta ordem
         
-        int ascii_value = (int)current_char;
+        if (word_index + 1 < word_length) { // Verifica se há outro caractere na palavra
+            current_char = word[word_index + 1];
+            r[index][1] = current_char << 8; // Define o byte de alta ordem
+        }
         
-        r[index][0] |= (ascii_value);
-
-        current_char = word[word_index++];
-
-        r[index][1] |= (ascii_value << 8);
-        
+        word_index += 2; // Incrementa por 2 para processar os caracteres em pares
         register_index++;
     }
 }
+
 
 void run_program(unsigned short *registers[]) {
     int choice = -1;
