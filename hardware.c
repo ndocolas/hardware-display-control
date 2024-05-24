@@ -121,14 +121,17 @@ void def_word(unsigned short *r[], char word[]) {
     while (word_index < word_length && register_index <= 15) {
         char current_char = word[word_index++];
         
-        int ascii_value = (int)current_char;
-        
         int index = register_index - 4;
         
         r[index][0] &= ~(255);
         r[index][1] &= ~(255 << 8);
         
+        int ascii_value = (int)current_char;
+        
         r[index][0] |= (ascii_value);
+
+        current_char = word[word_index++];
+
         r[index][1] |= (ascii_value << 8);
         
         register_index++;
