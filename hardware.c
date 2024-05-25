@@ -196,7 +196,7 @@ void run_program(unsigned short *registers[]) {
                     printf("Alteracao de cor do display: \n [1] Vermelho (%d)\n [2] Verde (%d)\n [3] Azul (%d)\n\n [0] Sair\n", 
                     read_color_display_red(registers[1]),
                     read_color_display_green(registers[1]),
-                    read_color_display_blue(registers[1]));
+                    read_color_display_blue(registers[2]));
                     int sub_case5;
                     scanf("%d", &sub_case5);
                     if(sub_case5 == 0) break;
