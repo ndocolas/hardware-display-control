@@ -157,6 +157,7 @@ void read_word(unsigned short *r[]) {
 }
 
 void run_program(unsigned short *registers[]) {
+    def_led_color(registers[0], read_battery_status_int(registers[3]));
     int choice = -1;
     int sub;
     while (choice != 0) {

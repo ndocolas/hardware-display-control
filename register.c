@@ -62,7 +62,6 @@ int main() {
         registers[i] = base_address +  i;
     }
 
-    def_led_color(registers[0], read_battery_status_int(registers[3]));
     run_program(registers);
 
     if (registers_release(map, FILE_SIZE, fd) == -1) {
