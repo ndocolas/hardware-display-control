@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "hardware.h"
 
 void def_display_state(unsigned short *r0, int value) {
@@ -68,15 +69,14 @@ void clear_words(unsigned short *r[]) {for(int i = 4; i < 16; i++) {*r[i] = 0;}}
 void def_word(unsigned short *r[], char word[]) {
     int word_length = strlen(word);
     int register_index = 4;
-    clear_words(r);
 
     int word_index = 0;
     while (word_index < word_length || register_index <= 15) {
-        int ascii_value = word[word_index];
+        int ascii_value = toupper(word[word_index]);
 
         *r[register_index] |= (ascii_value << 0);
         word_index++;
-        int ascii_value_two = word[word_index];
+        int ascii_value_two = toupper(word[word_index]);
 
         *r[register_index] |= (ascii_value_two << 8);
 
@@ -108,7 +108,7 @@ char* read_led_operation(unsigned short *r0) {return read_led_operation_value(r0
 
 int read_color_display_red(unsigned short *r1) {return((*r1 >> 0) & 0b11111111);}
 int read_color_display_green(unsigned short *r1) {return((*r1 >> 8) & 0b11111111);}
-int read_color_display_blue(unsigned short *r2) {return((*r2 >> 10) & 0b11111111);}
+int read_color_display_blue(unsigned short *r2) {return((*r2 >> 0) & 0b11111111);}
 
 char* read_color_display(unsigned short *r1, unsigned short *r2) {
     static char result[64];
@@ -224,6 +224,7 @@ void run_program(unsigned short *registers[]) {
                 break;
             case 6:
                 printf("\nDigite a palavra desejada: ");
+                clear_words(registers);
                 char word[22];
                 scanf("%s", word);
                 def_word(registers, word);
@@ -256,6 +257,8 @@ void run_program(unsigned short *registers[]) {
                     }
                 }
                 break;
+            case 10:
+                clear_words(registers);
             case 0:
                 break;
             default:
