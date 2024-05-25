@@ -17,11 +17,12 @@ STATIC_LIB = libhardware.a
 DYNAMIC_LIB = libhardware.so
 
 # Compilar
-all:
+all: 
 	gcc -o $(EXE) $(COMP)
 
 # Compilar Bibliotecas
-lib: $(STATIC_LIB) $(DYNAMIC_LIB)
+lib: 
+	$(STATIC_LIB) $(DYNAMIC_LIB)
 
 
 # Compila os arquivos de objeto

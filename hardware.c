@@ -193,14 +193,17 @@ void run_program(unsigned short *registers[]) {
                 break;
             case 5:
                 while(1) {
-                    printf("Alteracao de cor do display: \n [1] Vermelho\n [2] Verde\n [3] Azul\n\n [0] Sair\n");
+                    printf("Alteracao de cor do display: \n [1] Vermelho (%d)\n [2] Verde (%d)\n [3] Azul (%d)\n\n [0] Sair\n", 
+                    read_color_display_red(registers[1]),
+                    read_color_display_green(registers[1]),
+                    read_color_display_blue(registers[1]));
                     int sub_case5;
                     scanf("%d", &sub_case5);
                     if(sub_case5 == 0) break;
                     int value;
                     switch(sub_case5) {
                         case 1:
-                            printf("\nDigite o valor para vermelho: ");
+                            printf("\nDigite o valor para Vermelho (%d): ");
                             scanf("%d", &value);
                             def_color_red(registers[1], value);
                             break;
@@ -235,7 +238,7 @@ void run_program(unsigned short *registers[]) {
                     printf("Menu de leitura: \n\n [1] Status display \n [2] Modo display \n [3] valor refresh rate \n");
                     printf(" [4] Status led operation\n [5] Status RGB LED\n [6] Nivel da bateria\n");
                     printf(" [7] Contagem de passagens no modo deslizante\n [8] Temperatura Atual\n [9] Registers\n");
-                    printf("\n\n [0] Sair\n");
+                    printf("\n [0] Sair\n");
                     int sub_case7;
                     scanf("%d", &sub_case7);
                     if(sub_case7 == 0) break;
