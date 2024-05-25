@@ -72,12 +72,12 @@ void def_word(unsigned short *r[], char word[]) {
 
     int word_index = 0;
     while (word_index < word_length || register_index <= 15) {
-        int ascii_value = toupper(word[word_index]);
-
+        int ascii_value = (int)toupper(word[word_index]);
         *r[register_index] |= (ascii_value << 0);
+        
         word_index++;
-        int ascii_value_two = toupper(word[word_index]);
 
+        int ascii_value_two = (int)toupper(word[word_index]);
         *r[register_index] |= (ascii_value_two << 8);
 
         word_index++;
@@ -138,21 +138,11 @@ int read_temperature(unsigned short *r3) {
     return (temperature_bits & 0b1000000000) ? ((temperature_bits ^ 0b1111111111) + 1) : temperature_bits;
 }
 
-void print_binary(int value, int size) {
-    for (int i = size - 1; i >= 0; i--) {
-        printf("%d", (value >> i) & 1);
-    }
-}
-
 void read_word(unsigned short *r[]) {
     for(int i = 4; i<16; i++) {
         int bit_first = ((*r[i] >> 0) & 0b01111111);
         int bit_second = ((*r[i] >> 8) & 0b01111111);
-        printf("R%d: ", i);
-        print_binary(bit_first, 7);
-        printf("-");
-        print_binary(bit_second, 7);
-        printf("\n");
+        printf("R%d: %d-%d", i, bit_first, bit_second);
     }
 }
 
