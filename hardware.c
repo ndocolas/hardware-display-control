@@ -63,10 +63,12 @@ void def_color_blue(unsigned short *r2, int value) {
     }
 }
 
+void clean_words(unsigned short *r[]) {for(int i = 4; i < 16; i++) {r[i] = 0;}}
+
 void def_word(unsigned short *r[], char word[]) {
     int word_length = strlen(word);
     int register_index = 4;
-    for(int i =  register_index; i<16; i++) {*r[i] = 0;}
+    clean_words(r);
 
     int word_index = 0;
     while (word_index < word_length || register_index <= 15) {

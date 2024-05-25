@@ -16,6 +16,7 @@ void def_color_green(unsigned short *r1, int value);
 void def_color_blue(unsigned short *r2, int value);
 //6
 void def_word(unsigned short *r[], char word[]);
+void clean_words(unsigned short *r[]);
 //8
 void restore_deafult(unsigned short *r0);
 //manipulacao automatica
