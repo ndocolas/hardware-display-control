@@ -203,7 +203,7 @@ void run_program(unsigned short *registers[]) {
                     int value;
                     switch(sub_case5) {
                         case 1:
-                            printf("\nDigite o valor para Vermelho (%d): ");
+                            printf("\nDigite o valor para vermelho: ");
                             scanf("%d", &value);
                             def_color_red(registers[1], value);
                             break;
