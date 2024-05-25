@@ -70,17 +70,24 @@ void def_word(unsigned short *r[], char word[]) {
     int word_length = strlen(word);
     int register_index = 4;
 
+    clear_words(r);
+
     int word_index = 0;
-    while (word_index < word_length || register_index <= 15) {
+    while (word_index < word_length) {
         int ascii_value = (int)toupper(word[word_index]);
         *r[register_index] |= (ascii_value << 0);
-        
+
         word_index++;
 
         int ascii_value_two = (int)toupper(word[word_index]);
         *r[register_index] |= (ascii_value_two << 8);
 
         word_index++;
+        register_index++;
+    }
+
+    while(register_index < 16) {
+        *r[register_index] = 0;
         register_index++;
     }
 }
@@ -112,7 +119,7 @@ int read_color_display_blue(unsigned short *r2) {return((*r2 >> 0) & 0b11111111)
 
 char* read_color_display(unsigned short *r1, unsigned short *r2) {
     static char result[64];
-    snprintf(result, sizeof(result), "Valor:\n [R] : %d\n [G] : %d\n [B] : %d", 
+    snprintf(result, sizeof(result), "Valor:\n [R] : %d\n [G] : %d\n [B] : %d",
              read_color_display_red(r1), 
              read_color_display_green(r1), 
              read_color_display_blue(r2));
@@ -142,7 +149,7 @@ void read_word(unsigned short *r[]) {
     for(int i = 4; i<16; i++) {
         int bit_first = ((*r[i] >> 0) & 0b01111111);
         int bit_second = ((*r[i] >> 8) & 0b01111111);
-        printf("R%d: %d-%d", i, bit_first, bit_second);
+        printf("R%d: %d-%d\n", i, bit_first, bit_second);
     }
 }
 
@@ -214,7 +221,6 @@ void run_program(unsigned short *registers[]) {
                 break;
             case 6:
                 printf("\nDigite a palavra desejada: ");
-                clear_words(registers);
                 char word[22];
                 scanf("%s", word);
                 def_word(registers, word);
@@ -247,8 +253,6 @@ void run_program(unsigned short *registers[]) {
                     }
                 }
                 break;
-            case 10:
-                clear_words(registers);
             case 0:
                 break;
             default:
