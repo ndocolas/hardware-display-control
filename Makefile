@@ -4,7 +4,7 @@ CFLAGS = -Wall -fPIC
 # Arquivos de objeto
 OBJS = register.o hardware.o
 
-# Arquivo executavel
+# Arquivo executável
 EXE = exe
 
 # Compiladores
@@ -16,14 +16,15 @@ STATIC_LIB = libhardware.a
 # Nome da biblioteca dinâmica
 DYNAMIC_LIB = libhardware.so
 
-# Compilar
-all: 
+# Compilar apenas o executável por padrão
+all: $(EXE)
+
+# Compilar o executável
+$(EXE): $(COMP)
 	gcc -o $(EXE) $(COMP)
 
-# Compilar Bibliotecas
-lib: 
-	$(STATIC_LIB) $(DYNAMIC_LIB)
-
+# Regra para compilar as bibliotecas
+lib: $(STATIC_LIB) $(DYNAMIC_LIB)
 
 # Compila os arquivos de objeto
 %.o: %.c
@@ -37,10 +38,12 @@ $(STATIC_LIB): $(OBJS)
 $(DYNAMIC_LIB): $(OBJS)
 	gcc -shared -o $@ $^
 
-# Limpa os arquivos gerados
+# Limpa os arquivos gerados, exceto os originais
 clean:
-	rm -f $(OBJS) $(STATIC_LIB) $(DYNAMIC_LIB) $(EXE)
+	rm -f $(OBJS) $(EXE)
 
-.PHONY: all clean
-
+# Limpa todos os arquivos gerados, incluindo bibliotecas
 clear: clean
+	rm -f $(STATIC_LIB) $(DYNAMIC_LIB)
+
+.PHONY: all clean clear lib
